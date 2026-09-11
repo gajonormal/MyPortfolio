@@ -10,8 +10,8 @@ const GitHubCalendar = dynamic(
 
 export default function About() {
   const explicitTheme = {
-    light: ['#111111', '#5a0000', '#8c0000', '#bf0000', '#ED1C24'],
-    dark: ['#111111', '#5a0000', '#8c0000', '#bf0000', '#ED1C24'],
+    light: ['#ebebeb', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
+    dark: ['#ebebeb', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
   };
 
   return (
@@ -38,7 +38,7 @@ export default function About() {
           <GitHubCalendar 
             username="gajonormal" 
             theme={explicitTheme}
-            colorScheme="dark"
+            colorScheme="light"
             hideColorLegend
             hideMonthLabels={false}
             fontSize={12}
