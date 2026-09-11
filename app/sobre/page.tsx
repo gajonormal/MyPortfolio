@@ -1,18 +1,29 @@
-"use client";
+﻿import Link from "next/link";
+import { ActivityCalendar } from "react-activity-calendar";
 
-import Link from "next/link";
-import dynamic from "next/dynamic";
-
-const GitHubCalendar = dynamic(
-  () => import("react-github-calendar").then((mod) => mod.GitHubCalendar),
-  { ssr: false }
-);
-
-export default function About() {
+export default async function About() {
   const explicitTheme = {
     light: ['#fafafa', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
     dark: ['#fafafa', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
   };
+
+  let contributions = [];
+  try {
+    const res = await fetch("https://github-contributions-api.jogruber.de/v4/gajonormal?y=last", {
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
+    if (res.ok) {
+      const data = await res.json();
+      contributions = data.contributions || [];
+    }
+  } catch (error) {
+    console.error("Error fetching github data", error);
+  }
+
+  // Se a API falhar, não renderiza nada ou renderiza vazio, mas fallback mínimo:
+  if (contributions.length === 0) {
+    contributions = [{ date: new Date().toISOString().split('T')[0], count: 0, level: 0 }];
+  }
 
   return (
     <section id="about" className="page-section active">
@@ -35,8 +46,8 @@ export default function About() {
 
         {/* Gráfico do GitHub e link customizado */}
         <div style={{ width: "100%", maxWidth: "850px", margin: "0 auto", position: "relative" }}>
-          <GitHubCalendar 
-            username="gajonormal" 
+          <ActivityCalendar 
+            data={contributions} 
             theme={explicitTheme}
             colorScheme="light"
             showColorLegend={false}
