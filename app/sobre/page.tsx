@@ -1,7 +1,12 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
-import { GitHubCalendar } from "react-github-calendar";
+import dynamic from "next/dynamic";
+
+const GitHubCalendar = dynamic(
+  () => import("react-github-calendar").then((mod) => mod.GitHubCalendar),
+  { ssr: false }
+);
 
 export default function About() {
   // Configuração das cores para o gráfico do GitHub (Dark mode com Supreme Red)
