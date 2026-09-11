@@ -1,0 +1,506 @@
+/* Base Styles & Typography */
+:root {
+    --supreme-red: #ED1C24;
+    --font-mono: 'Courier New', Courier, monospace;
+    --font-sans: 'Futura', 'Arial', sans-serif;
+    --text-size: 15px; /* Increased para simular o zoom de 120% */
+    --border-color: #e5e5e5;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-mono);
+    font-size: var(--text-size);
+    line-height: 1.4;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    overflow: hidden; /* Bloqueia as barras de scroll em todas as páginas */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Themes */
+body.theme-dark {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+body.theme-light {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Efeito Hover estilo Supreme (Fundo Vermelho, Texto Branco) */
+.nav-link:hover:not(.box-logo), 
+.spaced-footer a:hover, 
+.lookbook-footer a:hover,
+.external-link:hover {
+    background-color: var(--supreme-red);
+    color: #ffffff !important;
+}
+
+/* Typography Elements */
+em {
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+}
+
+.bold-title {
+    font-weight: bold;
+    font-size: var(--text-size);
+    margin-bottom: 25px;
+}
+
+/* Box Logo */
+.box-logo {
+    display: inline-block;
+    background-color: var(--supreme-red);
+    color: #ffffff !important; 
+    padding: 6px 8px; /* Ligeiro ajuste vertical para acomodar o texto esticado */
+    font-size: 32px;
+    line-height: 1;
+    text-transform: none;
+}
+
+.box-logo em {
+    display: inline-block;
+    transform: scaleY(1.12); /* Estica o texto de forma mais subtil (12%) */
+    transform-origin: center;
+}
+
+.box-logo:hover {
+    opacity: 1;
+}
+
+.box-logo.small-logo {
+    font-size: 18px;
+    padding: 5px 14px;
+}
+
+/* Main Header */
+.center-header {
+    text-align: center;
+    padding-top: 12vh; /* Descido para acomodar o pedido */
+    margin-bottom: 0px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.clock {
+    font-size: var(--text-size);
+}
+
+/* Hide header on project detail view to match lookbook behavior */
+body[data-current-section="project-detail"] #main-header {
+    display: none;
+}
+
+/* Espaço extra entre o header e o conteúdo nas páginas (exceto Home) */
+body:not([data-current-section="home"]) .page-section {
+    padding-top: 80px;
+}
+
+/* Sections Structure */
+.page-section {
+    display: none;
+    min-height: calc(100vh - 180px);
+    position: relative;
+    padding: 0 20px 80px 20px;
+}
+
+.page-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.content-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* 1. Home Section */
+.home-layout {
+    position: absolute;
+    top: 30%; /* Movido significativamente para cima conforme pedido */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin-top: 0;
+}
+
+.home-menu-block {
+    width: 280px; /* Aumentado de 205px para 280px para empurrar o texto mais para a esquerda em relação ao logo */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Left-align the text and icons inside this block */
+}
+
+.vertical-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px; /* Reduzido de 18px para 12px para aproximar os links */
+}
+
+.vertical-nav a {
+    text-transform: lowercase;
+    white-space: nowrap; /* Long texts like 'fall/winter 2026 preview' will overflow to the right, exactly as desired */
+}
+
+.home-socials {
+    display: flex;
+    gap: 15px;
+    margin-top: 40px; /* Spacing between menu and icons */
+}
+
+.home-socials a {
+    display: flex;
+    align-items: center;
+    opacity: 0.8;
+}
+
+.home-socials a:hover {
+    opacity: 1;
+}
+
+.home-socials svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+/* 2. About Section */
+.text-block {
+    width: 65%;
+}
+
+.text-block p {
+    margin-bottom: 12px;
+}
+
+/* Footers for content pages */
+.spaced-footer {
+    position: fixed;
+    bottom: 25px;
+    left: 30px;
+    right: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    background-color: inherit; /* helps overlap cleanly */
+}
+
+.spaced-footer .right-links a {
+    margin-left: 25px;
+}
+
+/* 3. Projects (Shop) Section */
+.projects-view {
+    display: none;
+}
+.projects-view.active-view {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+.projects-view.fading-out {
+    display: block;
+    animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Slices View */
+.slices-container {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    width: 80%;
+    max-width: 1000px;
+    margin: 0 auto;
+    height: 55vh; /* Altura generosa para fatias verticais */
+    padding-bottom: 15px; /* Espaço para a barra de scroll */
+}
+
+.slice-item {
+    flex: 0 0 120px; /* Largura fixa para os blocos de cor */
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+}
+
+.slice-item .placeholder-img {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+.slice-item:hover .placeholder-img {
+    opacity: 0.8;
+}
+
+/* Custom grey scrollbar */
+.slices-container::-webkit-scrollbar {
+    height: 10px;
+}
+.slices-container::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+.slices-container::-webkit-scrollbar-thumb {
+    background: #cccccc; 
+}
+
+/* Grid View */
+.grid-layout {
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 50px;
+}
+
+.grid-sidebar {
+    width: 150px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.category-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.category-nav a {
+    margin-bottom: 3px;
+    color: #999999;
+}
+
+.category-nav a.active-category, .category-nav a:hover {
+    color: #000000;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    flex-grow: 1;
+}
+
+.grid-item {
+    cursor: pointer;
+}
+
+.grid-item .placeholder-img {
+    width: 100%;
+    aspect-ratio: 1;
+    display: block;
+}
+
+.grid-item:hover .placeholder-img {
+    opacity: 0.8;
+}
+
+.tag-new {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #bbbbbb;
+    color: #ffffff;
+    font-size: 11px;
+    padding: 2px 6px;
+    z-index: 2;
+}
+
+/* Hover logic for view toggles */
+.view-toggle:hover {
+    background-color: var(--supreme-red);
+    color: #ffffff !important;
+}
+
+.active-toggle {
+    font-weight: bold;
+}
+
+/* Project Modal Popup */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay.fading-out {
+    display: flex;
+    animation: fadeOut 0.3s ease forwards;
+}
+
+.modal-content {
+    display: flex;
+    width: 85%;
+    max-width: 1200px;
+    height: 70vh; /* Altura fixa para permitir scroll à esquerda */
+    background-color: #ffffff;
+    box-shadow: none; /* Sombra removida conforme pedido */
+    overflow: hidden;
+}
+
+.modal-left {
+    width: 35%; /* Aumentado de 25% para dar mais largura ao texto */
+    min-width: 250px;
+    padding: 30px;
+    background-color: #ffffff;
+    overflow-y: auto; /* Scroll apenas neste bloco */
+    color: #000000;
+}
+
+/* Mostrar a scrollbar com design minimalista */
+.modal-left::-webkit-scrollbar {
+    width: 8px; /* Traz a barra de volta à vida */
+}
+.modal-left::-webkit-scrollbar-track {
+    background: #f9f9f9; 
+}
+.modal-left::-webkit-scrollbar-thumb {
+    background: #dddddd; 
+}
+.modal-left::-webkit-scrollbar-thumb:hover {
+    background: #cccccc; 
+}
+
+.modal-left p {
+    margin-bottom: 15px;
+    font-size: var(--text-size);
+}
+
+.modal-right {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 5. Contact Section */
+.contact-label {
+    margin-bottom: 30px;
+}
+
+.supreme-form {
+    width: 100%;
+    max-width: 650px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-row input, .form-row textarea {
+    flex: 1;
+    padding: 12px 10px;
+    border: 1px solid var(--border-color);
+    font-family: var(--font-mono);
+    font-size: var(--text-size);
+    background: transparent;
+    outline: none;
+    resize: none;
+}
+
+.supreme-form input:focus, .supreme-form textarea:focus {
+    border-color: #aaaaaa;
+}
+
+.submit-btn {
+    background-color: var(--supreme-red);
+    color: #ffffff;
+    border: none;
+    padding: 10px 30px;
+    font-family: var(--font-mono);
+    font-size: var(--text-size);
+    cursor: pointer;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #d11a20;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .text-block {
+        width: 100%;
+    }
+    
+    .gallery-item {
+        width: 33.333%;
+    }
+    
+    .lookbook-layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .main-image-container, .thumbnails-container {
+        max-width: 100%;
+    }
+    
+    .project-info {
+        padding-left: 0;
+        text-align: center;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .spaced-footer, .lookbook-footer {
+        flex-direction: column;
+        align-items: center;
+        position: static;
+        margin-top: 40px;
+        gap: 15px;
+    }
+    
+    .home-footer {
+        position: static;
+        margin-top: 40px;
+    }
+}
