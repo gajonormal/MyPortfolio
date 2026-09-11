@@ -507,8 +507,6 @@ body:not([data-current-section="home"]) .page-section {
     }
 }
 
- . r e a c t - a c t i v i t y - c a l e n d a r   r e c t   { 
-     s t r o k e :   t r a n s p a r e n t   ! i m p o r t a n t ; 
- } 
-  
- 
+.react-activity-calendar rect {
+  stroke: transparent !important;
+}
