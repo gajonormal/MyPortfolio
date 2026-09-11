@@ -1,53 +1,18 @@
 ﻿"use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-const GitHubCalendar = dynamic(
-  () => import("react-github-calendar").then((mod) => mod.GitHubCalendar),
-  { ssr: false }
-);
 
 export default function About() {
-  // Configuração das cores para o gráfico do GitHub (Dark mode com Supreme Red)
-  const explicitTheme = {
-    light: ['#1a1a1a', '#4a0000', '#8c0000', '#d11a20', '#ED1C24'],
-    dark: ['#1a1a1a', '#4a0000', '#8c0000', '#d11a20', '#ED1C24'],
-  };
-
   return (
     <section id="about" className="page-section active">
       <div className="content-container" style={{ maxWidth: "1200px" }}>
         
-        <div style={{ display: "flex", gap: "60px", alignItems: "flex-start", marginBottom: "80px", flexWrap: "wrap" }}>
-          {/* Imagem Placeholder à esquerda */}
-          <div style={{ flexShrink: 0, width: "220px", height: "260px", backgroundColor: "#555555" }}></div>
-          
-          {/* Bloco de Texto mais largo ("corrido") */}
-          <div className="text-block" style={{ width: "100%", maxWidth: "800px", flex: 1 }}>
-            <h1 className="bold-title" style={{ fontWeight: "bold", marginBottom: "30px" }}>Sobre Mim</h1>
-            <p>Olá, sou o Bernardomaia, estudante de Engenharia Informática apaixonado por desenvolvimento web e design de interfaces. O meu foco é criar experiências digitais minimalistas, eficientes e impactantes.</p>
-            <br />
-            <p>Linguagens favoritas: JavaScript, Python, C++, Java.</p>
-            <br />
-            <p>Stack Tecnológica: React, Node.js, PostgreSQL, Docker.</p>
-            <br />
-            <p>Objetivo: Construir software robusto que combine uma estética brutalista com usabilidade imaculada e performance.</p>
-          </div>
-        </div>
-
-        {/* Gráfico do GitHub */}
-        <div style={{ width: "100%", maxWidth: "900px", margin: "0 auto", padding: "20px", backgroundColor: "#111111", borderRadius: "5px" }}>
-          <GitHubCalendar 
-            username="gajonormal" 
-            theme={explicitTheme}
-            colorScheme="dark"
-            hideColorLegend
-            hideMonthLabels={false}
-            fontSize={12}
-            blockSize={12}
-            blockMargin={4}
-          />
+        <div className="text-block" style={{ width: "100%", maxWidth: "1000px", margin: "0" }}>
+          <h1 className="bold-title" style={{ fontWeight: "bold", marginBottom: "15px" }}>About</h1>
+          <p style={{ marginBottom: "20px" }}>In April 1994, Supreme opened its doors on Lafayette Street in downtown Manhattan and became the home of New York City skate culture. At its core was a group of neighborhood kids, New York skaters, and local artists who became the store’s staff, crew, and customers.</p>
+          <p style={{ marginBottom: "20px" }}>Supreme grew to embody downtown culture, and play an integral part in its constant regeneration. Skaters, punks, hip-hop heads — the young counter culture at large — all gravitated toward Supreme.</p>
+          <p style={{ marginBottom: "20px" }}>While it developed into a downtown institution, Supreme established itself as a brand known for its quality, style, and authenticity.</p>
+          <p style={{ marginBottom: "20px" }}>Over 30 years, Supreme has expanded from its New York City origins into a global community; working with generations of artists, photographers, designers, musicians, filmmakers, and writers who defied conventions and contributed to its unique identity and attitude.</p>
         </div>
 
       </div>
