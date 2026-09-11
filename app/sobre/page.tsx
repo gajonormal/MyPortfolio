@@ -10,8 +10,8 @@ const GitHubCalendar = dynamic(
 
 export default function About() {
   const explicitTheme = {
-    light: ['#f5f5f5', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
-    dark: ['#f5f5f5', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
+    light: ['#fafafa', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
+    dark: ['#fafafa', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
   };
 
   return (
@@ -33,29 +33,39 @@ export default function About() {
           
         </div>
 
-        {/* Gráfico do GitHub */}
-        <div style={{ width: "100%", maxWidth: "850px", margin: "0 auto" }}>
+        {/* Gráfico do GitHub e link customizado */}
+        <div style={{ width: "100%", maxWidth: "850px", margin: "0 auto", position: "relative" }}>
           <GitHubCalendar 
             username="gajonormal" 
             theme={explicitTheme}
             colorScheme="light"
-            hideColorLegend
-            hideMonthLabels={false}
+            showColorLegend={false}
+            showMonthLabels={false}
             fontSize={12}
             blockSize={12}
             blockMargin={4}
             blockRadius={0}
           />
+          <div style={{ position: "absolute", bottom: "0", right: "0", fontSize: "12px" }}>
+            <a 
+              href="https://github.com/gajonormal" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="nav-link"
+              style={{ textDecoration: "none" }}
+            >
+              github
+            </a>
+          </div>
         </div>
 
       </div>
       <footer className="spaced-footer">
         <div className="left-links">
-          <Link href="/projetos" className="nav-link">projetos</Link>
+          <Link href="/projetos" className="nav-link" style={{ marginRight: "15px" }}>projetos</Link>
+          <a href="#" className="nav-link">currículo</a>
         </div>
         <div className="right-links">
-          <a href="https://github.com/gajonormal" target="_blank" rel="noopener noreferrer" style={{ marginRight: "15px" }}>github</a>
-          <a href="#">currículo</a>
           <Link href="/" className="nav-link">voltar</Link>
         </div>
       </footer>
