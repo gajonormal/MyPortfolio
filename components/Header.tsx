@@ -9,47 +9,24 @@ export default function Header() {
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const options: Intl.DateTimeFormatOptions = {
-        timeZone: "America/Los_Angeles",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      };
-
-      let formatter = new Intl.DateTimeFormat("en-GB", options);
-      let formattedParts = formatter.formatToParts(now);
-
-      let datePart = "";
-      let timePart = "";
-      let ampm = "";
-
-      formattedParts.forEach((part) => {
-        if (part.type === "day" || part.type === "month" || part.type === "year" || part.type === "literal") {
-          if (part.type === "literal" && part.value === ", ") {
-            // ignore
-          } else {
-            datePart += part.value;
-          }
-        }
-        if (part.type === "hour" || part.type === "minute") {
-          timePart += part.value;
-        }
-        if (part.type === "literal" && part.value === ":") {
-          timePart += ":";
-        }
-        if (part.type === "dayPeriod") {
-          ampm = part.value.toLowerCase();
-        }
-      });
-
-      setTimeStr(`${datePart.trim()} ${timePart}${ampm} PT`);
+      
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0'); 
+      const year = now.getFullYear();
+      
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'pm' : 'am';
+      
+      hours = hours % 12;
+      hours = hours ? hours : 12; // 0 becomes 12
+      const formattedHours = String(hours).padStart(2, '0');
+      
+      setTimeStr(`${day}/${month}/${year} ${formattedHours}:${minutes}${ampm} PT`);
     };
 
     updateTime();
-    const interval = setInterval(updateTime, 60000); // Update every minute
+    const interval = setInterval(updateTime, 1000); // Update every second to match original
     return () => clearInterval(interval);
   }, []);
 
