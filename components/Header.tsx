@@ -8,25 +8,38 @@ export default function Header() {
 
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date();
-      
-      const day = String(now.getDate()).padStart(2, '0');
-      const month = String(now.getMonth() + 1).padStart(2, '0'); 
-      const year = now.getFullYear();
-      
-      let hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const ampm = hours >= 12 ? 'pm' : 'am';
-      
-      hours = hours % 12;
-      hours = hours ? hours : 12; // 0 becomes 12
-      const formattedHours = String(hours).padStart(2, '0');
-      
-      setTimeStr(`${day}/${month}/${year} ${formattedHours}:${minutes}${ampm} PT`);
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: "Europe/Lisbon",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      };
+
+      const formatter = new Intl.DateTimeFormat("en-GB", options);
+      const parts = formatter.formatToParts(new Date());
+
+      let dp = "";
+      let tp = "";
+      let am = "";
+
+      parts.forEach((p) => {
+        if (["day", "month", "year"].includes(p.type)) dp += p.value;
+        else if (p.type === "literal") {
+          if (p.value === "/") dp += "/";
+          if (p.value === ":") tp += ":";
+        }
+        if (["hour", "minute"].includes(p.type)) tp += p.value;
+        if (p.type === "dayPeriod") am = p.value.toLowerCase();
+      });
+
+      setTimeStr(`${dp} ${tp}${am} PT`);
     };
 
     updateTime();
-    const interval = setInterval(updateTime, 1000); // Update every second to match original
+    const interval = setInterval(updateTime, 1000); // Update every second
     return () => clearInterval(interval);
   }, []);
 
