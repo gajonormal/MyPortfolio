@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -10,8 +10,8 @@ const GitHubCalendar = dynamic(
 
 export default function About() {
   const explicitTheme = {
-    light: ['#ebebeb', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
-    dark: ['#ebebeb', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
+    light: ['#f5f5f5', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
+    dark: ['#f5f5f5', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
   };
 
   return (
