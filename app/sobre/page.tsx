@@ -1,18 +1,51 @@
 ﻿"use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const GitHubCalendar = dynamic(
+  () => import("react-github-calendar").then((mod) => mod.GitHubCalendar),
+  { ssr: false }
+);
 
 export default function About() {
+  const explicitTheme = {
+    light: ['#111111', '#5a0000', '#8c0000', '#bf0000', '#ED1C24'],
+    dark: ['#111111', '#5a0000', '#8c0000', '#bf0000', '#ED1C24'],
+  };
+
   return (
     <section id="about" className="page-section active">
-      <div className="content-container" style={{ maxWidth: "1200px" }}>
+      <div className="content-container">
         
-        <div className="text-block" style={{ width: "100%", maxWidth: "1000px", margin: "0" }}>
-          <h1 className="bold-title" style={{ fontWeight: "bold", marginBottom: "15px" }}>About</h1>
-          <p style={{ marginBottom: "20px" }}>In April 1994, Supreme opened its doors on Lafayette Street in downtown Manhattan and became the home of New York City skate culture. At its core was a group of neighborhood kids, New York skaters, and local artists who became the store’s staff, crew, and customers.</p>
-          <p style={{ marginBottom: "20px" }}>Supreme grew to embody downtown culture, and play an integral part in its constant regeneration. Skaters, punks, hip-hop heads — the young counter culture at large — all gravitated toward Supreme.</p>
-          <p style={{ marginBottom: "20px" }}>While it developed into a downtown institution, Supreme established itself as a brand known for its quality, style, and authenticity.</p>
-          <p style={{ marginBottom: "20px" }}>Over 30 years, Supreme has expanded from its New York City origins into a global community; working with generations of artists, photographers, designers, musicians, filmmakers, and writers who defied conventions and contributed to its unique identity and attitude.</p>
+        <div style={{ display: "flex", gap: "30px", justifyContent: "center", alignItems: "flex-start", maxWidth: "850px", margin: "0 auto", marginBottom: "60px" }}>
+          
+          {/* Imagem Placeholder 110x110 */}
+          <div style={{ flexShrink: 0, width: "110px", height: "110px", backgroundColor: "#555555" }}></div>
+          
+          <div className="text-block" style={{ width: "100%", fontSize: "13px" }}>
+            <h1 className="bold-title" style={{ fontWeight: "bold", marginBottom: "12px", fontSize: "13px" }}>Sobre Mim</h1>
+            <p style={{ marginBottom: "12px" }}>Olá, sou o Bernardomaia, estudante de Engenharia Informática apaixonado por desenvolvimento web e design de interfaces. O meu foco é criar experiências digitais minimalistas, eficientes e impactantes.</p>
+            <p style={{ marginBottom: "12px" }}>Linguagens favoritas: JavaScript, Python, C++, Java.</p>
+            <p style={{ marginBottom: "12px" }}>Stack Tecnológica: React, Node.js, PostgreSQL, Docker.</p>
+            <p style={{ marginBottom: "12px" }}>Objetivo: Construir software robusto que combine uma estética brutalista com usabilidade imaculada e performance.</p>
+          </div>
+          
+        </div>
+
+        {/* Gráfico do GitHub */}
+        <div style={{ width: "100%", maxWidth: "850px", margin: "0 auto" }}>
+          <GitHubCalendar 
+            username="gajonormal" 
+            theme={explicitTheme}
+            colorScheme="dark"
+            hideColorLegend
+            hideMonthLabels={false}
+            fontSize={12}
+            blockSize={12}
+            blockMargin={4}
+            blockRadius={0}
+          />
         </div>
 
       </div>
