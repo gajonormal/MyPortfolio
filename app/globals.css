@@ -16,10 +16,11 @@
 }
 
 body {
+    zoom: 0.9;
     font-family: var(--font-mono);
     font-size: var(--text-size);
     line-height: 1.4;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    
     overflow: hidden; /* Bloqueia as barras de scroll em todas as páginas */
     -webkit-font-smoothing: antialiased;
 }
@@ -129,7 +130,7 @@ body:not([data-current-section="home"]) .page-section {
 
 .page-section.active {
     display: block;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.6s ease;
 }
 
 @keyframes fadeIn {
@@ -511,7 +512,9 @@ body:not([data-current-section="home"]) .page-section {
   stroke: transparent !important;
 }
 
+::placeholder {
+  color: #333333 !important;
+  opacity: 1 !important;
+}
 
-
-
-
+.nav-link:not(.box-logo), .spaced-footer a, .lookbook-footer a, .external-link, .vertical-nav a { padding: 2px 6px; margin: 0 -6px; transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out; }
