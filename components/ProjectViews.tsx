@@ -1,11 +1,14 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
 
+import { projects } from "@/data/projects";
+
 export default function ProjectViews({ onOpenModal }: { onOpenModal: () => void }) {
   const [activeView, setActiveView] = useState<"slices" | "grid">("slices");
   const [fadingView, setFadingView] = useState<"slices" | "grid" | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("tudo");
 
   const switchView = (target: "slices" | "grid") => {
     if (activeView === target) return;
@@ -16,16 +19,20 @@ export default function ProjectViews({ onOpenModal }: { onOpenModal: () => void 
     }, 300);
   };
 
+  const filteredProjects = activeCategory === "tudo" 
+    ? projects 
+    : projects.filter(p => p.category === activeCategory || (activeCategory === "novo" && p.isNew));
+
   return (
     <>
       {/* Vista de Fatias (Destaques) */}
       {(activeView === "slices" || fadingView === "slices") && (
         <div id="projects-slices" className={`projects-view active-view ${fadingView === "slices" ? "fading-out" : ""}`}>
           <div className="slices-container">
-            {["#1a1a1a", "#4a0000", "#3d3d3d", "#1a331a", "#8c4600", "#2b2b2b", "#666666", "#222222", "#5a0000", "#111111", "#8b7d6b", "#4a004a", "#333333", "#3a5c6e"].map((color, i) => (
-              <div key={i} className="slice-item project-trigger" onClick={onOpenModal}>
-                <span className="tag-new">novo</span>
-                <div className="placeholder-img" style={{ backgroundColor: color }}></div>
+            {projects.slice(0, 14).map((project) => (
+              <div key={project.id} className="slice-item project-trigger" onClick={onOpenModal}>
+                {project.isNew && <span className="tag-new">novo</span>}
+                <div className="placeholder-img" style={{ backgroundColor: project.color }}></div>
               </div>
             ))}
           </div>
@@ -38,20 +45,22 @@ export default function ProjectViews({ onOpenModal }: { onOpenModal: () => void 
           <div className="grid-layout">
             <aside className="grid-sidebar">
               <nav className="category-nav">
-                <a href="#" onClick={(e) => e.preventDefault()}>novo</a>
-                <a href="#" onClick={(e) => e.preventDefault()}>frontend</a>
-                <a href="#" onClick={(e) => e.preventDefault()}>backend</a>
-                <a href="#" onClick={(e) => e.preventDefault()}>ui/ux</a>
-                <a href="#" onClick={(e) => e.preventDefault()}>mobile</a>
-                <a href="#" onClick={(e) => e.preventDefault()}>jogos</a>
-                <a href="#" onClick={(e) => e.preventDefault()}>scripts</a>
-                <a href="#" onClick={(e) => e.preventDefault()} className="active-category">tudo</a>
+                {["novo", "frontend", "backend", "ui/ux", "mobile", "jogos", "scripts", "tudo"].map(cat => (
+                  <a 
+                    key={cat} 
+                    href="#" 
+                    onClick={(e) => { e.preventDefault(); setActiveCategory(cat); }}
+                    className={activeCategory === cat ? "active-category" : ""}
+                  >
+                    {cat}
+                  </a>
+                ))}
               </nav>
             </aside>
             <div className="grid-container">
-              {["#1a1a1a", "#4a0000", "#3d3d3d", "#1a331a", "#8c4600", "#2b2b2b", "#666666", "#222222", "#5a0000", "#111111"].map((color, i) => (
-                <div key={i} className="grid-item project-trigger" onClick={onOpenModal}>
-                  <div className="placeholder-img" style={{ backgroundColor: color }}></div>
+              {filteredProjects.map((project) => (
+                <div key={project.id} className="grid-item project-trigger" onClick={onOpenModal}>
+                  <div className="placeholder-img" style={{ backgroundColor: project.color }}></div>
                 </div>
               ))}
             </div>

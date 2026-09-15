@@ -1,11 +1,18 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import ThemeWrapper from "@/components/ThemeWrapper";
 
 export const metadata: Metadata = {
-  title: "Bernardomaia - Portfolio",
-  description: "Minimalist brutalist portfolio",
+  title: "Bernardo Maia — Software Engineer",
+  description: "Portfólio de Bernardo Maia. Desenvolvimento web com estética minimalista e performance brutal.",
+  keywords: ["Bernardo Maia", "Software Engineer", "Web Development", "Portfolio", "Next.js", "Brutalist Design"],
+  openGraph: {
+    title: "Bernardo Maia — Software Engineer",
+    description: "Portfólio de Bernardo Maia. Desenvolvimento web com estética minimalista e performance brutal.",
+    url: "https://bernardomaia.dev",
+    siteName: "Bernardo Maia Portfolio",
+    locale: "pt_PT",
+    type: "website",
+  }
 };
 
 export default function RootLayout({
@@ -15,13 +22,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt">
-      <body className="theme-dark" data-current-section="home">
-        <ThemeWrapper>
-          <Header />
-          <main>
-            {children}
-          </main>
-        </ThemeWrapper>
+      <body className="theme-light" data-current-section="home">
+        {children}
       </body>
     </html>
   );
