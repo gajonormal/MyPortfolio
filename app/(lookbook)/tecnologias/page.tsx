@@ -8,6 +8,16 @@ export default function StackLookbook() {
   const [activeLook, setActiveLook] = useState(0);
   const activeTech = techStack[activeLook];
 
+  // Helper to determine text/icon color based on background
+  const getContrastColor = (hexColor: string) => {
+    const hex = hexColor.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return yiq >= 128 ? '#000000' : '#ffffff';
+  };
+
   return (
     <div style={{ 
       display: "flex", 
@@ -35,8 +45,8 @@ export default function StackLookbook() {
         {/* HERO & THUMBNAILS CONTAINER */}
         <div style={{ 
           display: "flex", 
-          justifyContent: "space-between", 
-          alignItems: "center", 
+          justifyContent: "flex-end", 
+          alignItems: "flex-start", 
           maxWidth: "900px", 
           margin: "0 auto",
           width: "100%",
@@ -46,15 +56,25 @@ export default function StackLookbook() {
         }}>
           
           {/* HERO */}
-          <div style={{ flex: "1 1 50%", display: "flex", justifyContent: "center", minWidth: "300px", height: "450px", alignItems: "center" }}>
-             <div key={activeTech.id} style={{ animation: "fadeIn 0.3s ease-out", display: "flex", justifyContent: "center", alignItems: "center", width: "400px", height: "400px" }}>
-               <activeTech.icon style={{ width: "100%", height: "100%", color: activeTech.color, objectFit: "contain", flexShrink: 0 }} />
+          <div style={{ display: "flex", justifyContent: "center", minWidth: "300px", height: "500px", alignItems: "center" }}>
+             <div key={activeTech.id} style={{ 
+               animation: "fadeIn 0.3s ease-out", 
+               display: "flex", 
+               justifyContent: "center", 
+               alignItems: "center", 
+               width: "400px", 
+               height: "500px", 
+               backgroundColor: activeTech.color,
+               borderRadius: "2px",
+               boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
+             }}>
+               <activeTech.icon style={{ width: "40%", height: "40%", color: getContrastColor(activeTech.color), objectFit: "contain", flexShrink: 0 }} />
              </div>
           </div>
 
           {/* THUMBNAILS & PAGER */}
-          <div style={{ flex: "0 0 320px", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "8px", width: "100%" }}>
+          <div style={{ flex: "0 0 290px", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "2px", width: "100%" }}>
               {techStack.map((tech, index) => {
                 const isActive = activeLook === index;
                 return (
@@ -65,7 +85,7 @@ export default function StackLookbook() {
                       aspectRatio: "4/5",
                       border: isActive ? "1.5px solid var(--supreme-red)" : "1.5px solid transparent",
                       background: "transparent",
-                      padding: "4px",
+                      padding: "2px",
                       cursor: "pointer",
                       transition: "border 0.2s, opacity 0.2s",
                       display: "flex",
@@ -81,7 +101,17 @@ export default function StackLookbook() {
                       e.currentTarget.style.opacity = "1";
                     }}
                   >
-                    <tech.icon style={{ width: "100%", height: "100%", color: tech.color }} />
+                    <div style={{
+                      width: "100%",
+                      height: "100%",
+                      backgroundColor: tech.color,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "1px"
+                    }}>
+                      <tech.icon style={{ width: "50%", height: "50%", color: getContrastColor(tech.color) }} />
+                    </div>
                   </button>
                 );
               })}
