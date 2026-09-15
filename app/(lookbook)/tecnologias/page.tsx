@@ -47,7 +47,9 @@ export default function StackLookbook() {
           
           {/* HERO */}
           <div style={{ flex: "1 1 50%", display: "flex", justifyContent: "center", minWidth: "300px", height: "450px", alignItems: "center" }}>
-             <activeTech.icon style={{ width: "400px", height: "400px", color: activeTech.color, objectFit: "contain", flexShrink: 0 }} />
+             <div key={activeTech.id} style={{ animation: "fadeIn 0.3s ease-out", display: "flex", justifyContent: "center", alignItems: "center", width: "400px", height: "400px" }}>
+               <activeTech.icon style={{ width: "100%", height: "100%", color: activeTech.color, objectFit: "contain", flexShrink: 0 }} />
+             </div>
           </div>
 
           {/* THUMBNAILS & PAGER */}
@@ -61,17 +63,23 @@ export default function StackLookbook() {
                     onClick={() => setActiveLook(index)}
                     style={{
                       aspectRatio: "4/5",
-                      border: isActive ? "2px solid var(--brand)" : "1px solid transparent",
+                      border: isActive ? "1.5px solid var(--supreme-red)" : "1.5px solid transparent",
                       background: "transparent",
-                      padding: "8px",
+                      padding: "4px",
                       cursor: "pointer",
-                      transition: "border 0.2s",
+                      transition: "border 0.2s, opacity 0.2s",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                     }}
-                    onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.border = "1px solid var(--foreground)"; }}
-                    onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.border = "1px solid transparent"; }}
+                    onMouseEnter={(e) => { 
+                      if (!isActive) e.currentTarget.style.border = "1.5px solid var(--supreme-red)";
+                      e.currentTarget.style.opacity = "0.7";
+                    }}
+                    onMouseLeave={(e) => { 
+                      if (!isActive) e.currentTarget.style.border = "1.5px solid transparent";
+                      e.currentTarget.style.opacity = "1";
+                    }}
                   >
                     <tech.icon style={{ width: "100%", height: "100%", color: tech.color }} />
                   </button>
