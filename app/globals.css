@@ -139,7 +139,7 @@ body:not([data-current-section="home"]) .page-section {
 }
 
 .content-container {
-    max-width: 900px;
+    max-width: 940px;
     margin: 0 auto;
 }
 
@@ -209,9 +209,14 @@ body:not([data-current-section="home"]) .page-section {
 .spaced-footer {
     position: fixed;
     bottom: 25px;
-    left: 30px;
-    right: 30px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
     display: flex;
+
     justify-content: space-between;
     align-items: flex-end;
     background-color: inherit; /* helps overlap cleanly */
