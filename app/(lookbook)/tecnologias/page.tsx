@@ -42,38 +42,66 @@ export default function StackLookbook() {
         justifyContent: "center",
       }}>
         
-        {/* HERO & THUMBNAILS CONTAINER */}
+        {/* MAIN LAYOUT CONTAINER */}
         <div style={{ 
           display: "flex", 
-          justifyContent: "flex-end", 
-          alignItems: "flex-start", 
+          justifyContent: "space-between",
           maxWidth: "900px", 
           margin: "0 auto",
           width: "100%",
           gap: "50px",
-          paddingBottom: "60px",
-          flexWrap: "wrap"
+          paddingBottom: "60px"
         }}>
           
-          {/* HERO */}
-          <div style={{ display: "flex", justifyContent: "center", minWidth: "300px", height: "500px", alignItems: "center" }}>
-             <div key={activeTech.id} style={{ 
-               animation: "fadeIn 0.3s ease-out", 
-               display: "flex", 
-               justifyContent: "center", 
-               alignItems: "center", 
-               width: "400px", 
-               height: "500px", 
-               backgroundColor: activeTech.color,
-               borderRadius: "2px",
-               boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
-             }}>
-               <activeTech.icon style={{ width: "40%", height: "40%", color: getContrastColor(activeTech.color), objectFit: "contain", flexShrink: 0 }} />
-             </div>
+          {/* LEFT COLUMN (Logo + Hero + Copy) */}
+          <div style={{ 
+            flex: 1, 
+            display: "flex", 
+            flexDirection: "column", 
+            alignItems: "flex-end", 
+            position: "relative" 
+          }}>
+            
+            {/* HERO */}
+            <div key={activeTech.id} style={{ 
+              animation: "fadeIn 0.3s ease-out", 
+              display: "flex", 
+              justifyContent: "center", 
+              alignItems: "center", 
+              width: "400px", 
+              height: "500px", 
+              backgroundColor: activeTech.color,
+              borderRadius: "2px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
+            }}>
+              <activeTech.icon style={{ width: "40%", height: "40%", color: getContrastColor(activeTech.color), objectFit: "contain", flexShrink: 0 }} />
+            </div>
+
+            {/* COPY & LOGO */}
+            <div style={{ position: "relative", width: "400px", marginTop: "30px" }}>
+              
+              {/* BRAND LOGO (Positioned to the left of the text) */}
+              <div style={{ position: "absolute", right: "100%", marginRight: "50px", top: "50%", transform: "translateY(-50%)" }}>
+                <div className="box-logo">
+                  <em>Bernardomaia</em>
+                </div>
+              </div>
+
+              {/* COPY */}
+              <div style={{ display: "flex", flexDirection: "column", fontSize: "14px" }}>
+                <h1 className="bold-title" style={{ margin: 0, fontSize: "14px" }}>{activeTech.category}</h1>
+                <p style={{ margin: 0, fontSize: "14px" }}>{activeTech.name}</p>
+                <p style={{ margin: 0, color: "#777", fontSize: "14px" }}>{activeTech.description}</p>
+              </div>
+              
+            </div>
+            
           </div>
 
-          {/* THUMBNAILS & PAGER */}
+          {/* RIGHT COLUMN (Thumbnails + Pager + Voltar) */}
           <div style={{ flex: "0 0 290px", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+            
+            {/* THUMBNAILS GRID */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "2px", width: "100%" }}>
               {techStack.map((tech, index) => {
                 const isActive = activeLook === index;
@@ -118,7 +146,7 @@ export default function StackLookbook() {
             </div>
 
             {/* PAGER */}
-            <div style={{ marginTop: "20px", display: "flex", alignItems: "center", gap: "12px", color: "#777" }}>
+            <div style={{ marginTop: "20px", width: "100%", display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "12px", color: "#777", marginBottom: "30px" }}>
               <span>{activeLook + 1} of {techStack.length}</span>
               <button
                 onClick={() => setActiveLook((activeLook + 1) % techStack.length)}
@@ -127,40 +155,13 @@ export default function StackLookbook() {
                 →
               </button>
             </div>
-          </div>
-        </div>
 
-        {/* BOTTOM INFO ROW (Logo + Copy + Archive) */}
-        <div style={{ 
-          display: "flex", 
-          justifyContent: "space-between", 
-          alignItems: "flex-end", 
-          maxWidth: "900px", 
-          margin: "0 auto", 
-          width: "100%",
-          paddingBottom: "25px",
-          flexWrap: "wrap",
-          gap: "30px"
-        }}>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: "50px", flexWrap: "wrap" }}>
-            {/* BRAND */}
-            <div className="box-logo">
-              <em>Bernardomaia</em>
-            </div>
-            
-            {/* COPY */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "5px", fontSize: "13px" }}>
-              <h1 className="bold-title" style={{ margin: 0, fontSize: "13px" }}>{activeTech.category}</h1>
-              <p style={{ margin: 0, fontSize: "13px" }}>{activeTech.name}</p>
-              <p style={{ margin: 0, color: "#777", fontSize: "13px" }}>{activeTech.description}</p>
-            </div>
-          </div>
+            {/* ARCHIVE LINK */}
+            <Link href="/" className="nav-link" style={{ color: "#777" }}>
+              voltar
+            </Link>
 
-          {/* ARCHIVE LINK */}
-          <Link href="/" className="nav-link" style={{ color: "#777", marginBottom: "5px" }}>
-            voltar
-          </Link>
+          </div>
           
         </div>
         
