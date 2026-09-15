@@ -16,6 +16,7 @@ export default function StackLookbook() {
       backgroundColor: "#fff", 
       color: "#000",
       padding: "30px 40px",
+      animation: "fadeIn 0.6s ease"
     }}>
       <style dangerouslySetInnerHTML={{ __html: `
         html, body {
@@ -36,7 +37,7 @@ export default function StackLookbook() {
           display: "flex", 
           justifyContent: "space-between", 
           alignItems: "center", 
-          maxWidth: "1300px", 
+          maxWidth: "900px", 
           margin: "0 auto",
           width: "100%",
           gap: "50px",
@@ -96,7 +97,7 @@ export default function StackLookbook() {
           display: "flex", 
           justifyContent: "space-between", 
           alignItems: "flex-end", 
-          maxWidth: "1300px", 
+          maxWidth: "900px", 
           margin: "0 auto", 
           width: "100%",
           paddingBottom: "25px",
@@ -129,7 +130,7 @@ export default function StackLookbook() {
 
       {/* BOTTOM NAV */}
       <footer style={{ 
-        maxWidth: "1300px", 
+        maxWidth: "900px", 
         margin: "0 auto", 
         width: "100%", 
         display: "flex", 
