@@ -8,6 +8,7 @@ export default function Home() {
           <nav className="vertical-nav">
             <Link href="/sobre" className="nav-link">sobre mim</Link>
             <Link href="/projetos" className="nav-link">projetos</Link>
+            <Link href="/random" className="nav-link">random</Link>
             <a href="https://github.com/gajonormal?tab=repositories" target="_blank" className="nav-link">repositórios</a>
             <Link href="/tecnologias" className="nav-link">stack tecnológica</Link>
             <a href="https://www.linkedin.com/in/bernardo-maia-bpm" target="_blank" className="nav-link">currículo</a>
