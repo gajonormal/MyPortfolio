@@ -1,5 +1,102 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+
+// Sub-component for an individual article to maintain its own carousel state
+function NewsArticle({ article, isFirst }) {
+  const [currentImage, setCurrentImage] = useState(1);
+
+  const handlePrev = () => {
+    if (currentImage > 1) {
+      setCurrentImage(currentImage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentImage < article.imagesCount) {
+      setCurrentImage(currentImage + 1);
+    }
+  };
+
+  return (
+    <article style={{ display: "flex", flex: "0 0 auto", gap: "25px", alignItems: "flex-start", marginLeft: isFirst ? "30vw" : "0" }}>
+      
+      {/* Image Side */}
+      <div style={{ display: "flex", flexDirection: "column", width: "320px" }}>
+        <div style={{ width: "320px", height: "350px", position: "relative", backgroundColor: "#f2f2f2" }}>
+          <img 
+            src={article.image} 
+            alt={article.title} 
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        </div>
+        
+        {/* Interactive Carousel Controls */}
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          alignItems: "center", 
+          marginTop: "12px", 
+          fontSize: "14px", 
+          color: "#333",
+          fontFamily: "var(--font-mono)",
+          gap: "4px"
+        }}>
+          <button 
+            onClick={handlePrev} 
+            style={{ 
+              background: "none", 
+              border: "none", 
+              cursor: currentImage > 1 ? "pointer" : "default", 
+              fontSize: "18px", 
+              color: "#999", 
+              padding: "0 2px", 
+              fontFamily: "inherit",
+              WebkitTextStroke: "1px currentColor",
+              visibility: currentImage > 1 ? "visible" : "hidden",
+              transform: "translateY(-1.5px)"
+            }}
+          >
+            &larr;
+          </button>
+          
+          <span style={{ margin: "0 2px", fontSize: "11.5px", letterSpacing: "0.5px" }}>{currentImage} of {article.imagesCount}</span>
+          
+          <button 
+            onClick={handleNext} 
+            style={{ 
+              background: "none", 
+              border: "none", 
+              cursor: currentImage < article.imagesCount ? "pointer" : "default", 
+              fontSize: "18px", 
+              color: "#999", 
+              padding: "0 2px", 
+              fontFamily: "inherit",
+              WebkitTextStroke: "1px currentColor",
+              visibility: currentImage < article.imagesCount ? "visible" : "hidden",
+              transform: "translateY(-1.5px)"
+            }}
+          >
+            &rarr;
+          </button>
+        </div>
+      </div>
+
+      {/* Text Side */}
+      <div style={{ display: "flex", flexDirection: "column", width: "300px", fontSize: "12px", paddingTop: "5px", lineHeight: "1.4" }}>
+        <h2 style={{ fontSize: "12px", marginBottom: "3px", color: "#888" }}>{article.date}</h2>
+        <h1 style={{ fontSize: "14px", marginBottom: "15px" }}>{article.title}</h1>
+        
+        <div style={{ flexGrow: 1 }}>
+          {article.content}
+        </div>
+      </div>
+      
+    </article>
+  );
+}
 
 export default function Random() {
   const articles = [
@@ -75,34 +172,7 @@ export default function Random() {
         }}
       >
         {articles.map((article, index) => (
-          <article key={article.id} style={{ display: "flex", flex: "0 0 auto", gap: "25px", alignItems: "flex-start", marginLeft: index === 0 ? "30vw" : "0" }}>
-            
-            {/* Image Side */}
-            <div style={{ display: "flex", flexDirection: "column", width: "320px" }}>
-              <div style={{ width: "320px", height: "350px", position: "relative", backgroundColor: "#f2f2f2" }}>
-                <img 
-                  src={article.image} 
-                  alt={article.title} 
-                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                />
-              </div>
-              {/* Carousel Controls */}
-              <div style={{ textAlign: "center", marginTop: "12px", fontSize: "11px", color: "#888" }}>
-                1 of {article.imagesCount} &rarr;
-              </div>
-            </div>
-
-            {/* Text Side */}
-            <div style={{ display: "flex", flexDirection: "column", width: "300px", fontSize: "12px", paddingTop: "5px", lineHeight: "1.4" }}>
-              <h2 style={{ fontSize: "12px", marginBottom: "3px", color: "#888" }}>{article.date}</h2>
-              <h1 style={{ fontSize: "14px", marginBottom: "15px" }}>{article.title}</h1>
-              
-              <div style={{ flexGrow: 1 }}>
-                {article.content}
-              </div>
-            </div>
-            
-          </article>
+          <NewsArticle key={article.id} article={article} isFirst={index === 0} />
         ))}
       </div>
 
