@@ -74,8 +74,8 @@ export default function Random() {
           alignItems: "center"
         }}
       >
-        {articles.map((article) => (
-          <article key={article.id} style={{ display: "flex", flex: "0 0 auto", gap: "25px", alignItems: "flex-start" }}>
+        {articles.map((article, index) => (
+          <article key={article.id} style={{ display: "flex", flex: "0 0 auto", gap: "25px", alignItems: "flex-start", marginLeft: index === 0 ? "30vw" : "0" }}>
             
             {/* Image Side */}
             <div style={{ display: "flex", flexDirection: "column", width: "320px" }}>
