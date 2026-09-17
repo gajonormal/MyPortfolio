@@ -24,12 +24,13 @@ function NewsArticle({ article, isFirst }) {
     <article style={{ display: "flex", flex: "0 0 auto", gap: "25px", alignItems: "flex-start", marginLeft: isFirst ? "30vw" : "0" }}>
       
       {/* Image Side */}
-      <div style={{ display: "flex", flexDirection: "column", width: "320px" }}>
-        <div style={{ width: "320px", height: "350px", position: "relative", backgroundColor: "#f2f2f2" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        {/* The image container adapts perfectly to the natural width of the image at 350px height */}
+        <div style={{ height: "350px", backgroundColor: "#f2f2f2" }}>
           <img 
             src={article.image} 
             alt={article.title} 
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            style={{ width: "auto", height: "100%", objectFit: "contain" }}
           />
         </div>
         
@@ -104,7 +105,8 @@ export default function Random() {
       id: 1,
       date: "09/11/2026",
       title: "Supreme Seoul - Seongsu",
-      image: "https://via.placeholder.com/600x450/e0e0e0/000000?text=Store+Image",
+      // Landscape placeholder (600x350)
+      image: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="350"><rect width="100%" height="100%" fill="%23d8d8d8"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="20" fill="%23666">Retângulo (Horizontal)</text></svg>',
       imagesCount: 7,
       content: (
         <>
@@ -123,7 +125,8 @@ export default function Random() {
       id: 2,
       date: "09/07/2026",
       title: "Supreme/A.PRESSE",
-      image: "https://via.placeholder.com/450x600/e0e0e0/000000?text=Lookbook+1",
+      // Portrait placeholder (250x350)
+      image: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="350"><rect width="100%" height="100%" fill="%23e8e8e8"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="16" fill="%23666">Vertical</text></svg>',
       imagesCount: 64,
       content: (
         <>
@@ -140,8 +143,10 @@ export default function Random() {
       id: 3,
       date: "08/31/2026",
       title: "Supreme/Larry Clark",
-      image: "https://via.placeholder.com/450x600/e0e0e0/000000?text=Larry+Clark",
+      // Square placeholder (350x350)
+      image: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="350" height="350"><rect width="100%" height="100%" fill="%23cccccc"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="20" fill="%23666">Quadrado</text></svg>',
       imagesCount: 46,
+
       content: (
         <>
           <p style={{ marginBottom: "15px" }}>
