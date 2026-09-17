@@ -1,10 +1,10 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ActivityCalendar } from "react-activity-calendar";
 
 export default async function About() {
   const explicitTheme = {
-    light: ['#fafafa', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
-    dark: ['#fafafa', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
+    light: ['#fcfcfc', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
+    dark: ['#0d0d0d', '#fca5a5', '#f87171', '#ef4444', '#ED1C24'],
   };
 
   let contributions = [];
