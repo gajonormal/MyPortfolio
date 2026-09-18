@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 // Sub-component for an individual article to maintain its own carousel state
 function NewsArticle({ article, isFirst }) {
@@ -100,6 +100,63 @@ function NewsArticle({ article, isFirst }) {
 }
 
 export default function Random() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    let target = container.scrollLeft;
+    let current = container.scrollLeft;
+    let isAnimating = false;
+
+    const updateScroll = () => {
+      // Fator de suavidade (lerp). Valores menores = mais suave/lento.
+      current = current + (target - current) * 0.08;
+
+      if (Math.abs(target - current) < 0.5) {
+        current = target;
+        container.scrollLeft = current;
+        isAnimating = false;
+      } else {
+        container.scrollLeft = current;
+        requestAnimationFrame(updateScroll);
+      }
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault(); 
+      
+      target += e.deltaY;
+      
+      // Impedir que o target vá além dos limites
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      target = Math.max(0, Math.min(target, maxScroll));
+
+      if (!isAnimating) {
+        isAnimating = true;
+        // Sincronizar com o scroll real antes de animar (caso o utilizador tenha mexido na barra)
+        current = container.scrollLeft; 
+        requestAnimationFrame(updateScroll);
+      }
+    };
+
+    const handleScroll = () => {
+      if (!isAnimating) {
+        target = container.scrollLeft;
+      }
+    };
+
+    // Usar { passive: false } permite o e.preventDefault() funcionar corretamente
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    container.addEventListener("scroll", handleScroll);
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+      container.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const articles = [
     {
       id: 1,
@@ -165,6 +222,7 @@ export default function Random() {
       
       {/* Horizontal Scrolling Area */}
       <div 
+        ref={scrollContainerRef}
         className="horizontal-news-container"
         style={{ 
           display: "flex", 
