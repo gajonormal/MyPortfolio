@@ -21,16 +21,16 @@ function NewsArticle({ article, isFirst }) {
   };
 
   return (
-    <article style={{ display: "flex", flex: "0 0 auto", gap: "25px", alignItems: "flex-start", marginLeft: isFirst ? "30vw" : "0" }}>
+    <article style={{ display: "flex", flex: "0 0 auto", gap: "50px", alignItems: "flex-start", marginLeft: isFirst ? "30vw" : "0" }}>
       
       {/* Image Side */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        {/* The image container adapts perfectly to the natural width of the image at 350px height */}
-        <div style={{ height: "350px", backgroundColor: "#f2f2f2" }}>
+        {/* The image container allows the image to dictate its natural height */}
+        <div style={{ backgroundColor: "#f2f2f2", display: "flex" }}>
           <img 
             src={article.image} 
             alt={article.title} 
-            style={{ width: "auto", height: "100%", objectFit: "contain" }}
+            style={{ width: "auto", height: "auto", display: "block" }}
           />
         </div>
         
@@ -105,8 +105,8 @@ export default function Random() {
       id: 1,
       date: "09/11/2026",
       title: "Supreme Seoul - Seongsu",
-      // Landscape placeholder (600x350)
-      image: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="350"><rect width="100%" height="100%" fill="%23d8d8d8"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="20" fill="%23666">Retângulo (Horizontal)</text></svg>',
+      // Landscape placeholder (500x350)
+      image: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="500" height="350"><rect width="100%" height="100%" fill="%23d8d8d8"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="20" fill="%23666">Retângulo (Horizontal)</text></svg>',
       imagesCount: 7,
       content: (
         <>
@@ -125,8 +125,8 @@ export default function Random() {
       id: 2,
       date: "09/07/2026",
       title: "Supreme/A.PRESSE",
-      // Portrait placeholder (250x350)
-      image: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="350"><rect width="100%" height="100%" fill="%23e8e8e8"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="16" fill="%23666">Vertical</text></svg>',
+      // Portrait placeholder (300x500)
+      image: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="500"><rect width="100%" height="100%" fill="%23e8e8e8"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="16" fill="%23666">Vertical</text></svg>',
       imagesCount: 64,
       content: (
         <>
@@ -143,8 +143,8 @@ export default function Random() {
       id: 3,
       date: "08/31/2026",
       title: "Supreme/Larry Clark",
-      // Square placeholder (350x350)
-      image: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="350" height="350"><rect width="100%" height="100%" fill="%23cccccc"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="20" fill="%23666">Quadrado</text></svg>',
+      // Square placeholder (400x400)
+      image: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="%23cccccc"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="20" fill="%23666">Quadrado</text></svg>',
       imagesCount: 46,
 
       content: (
@@ -171,9 +171,10 @@ export default function Random() {
           flexGrow: 1, 
           overflowX: "auto", 
           overflowY: "hidden", 
-          padding: "20px 5vw 80px 5vw", 
+          maxHeight: "calc(100vh - 180px)",
+          padding: "60px 5vw 80px 5vw", 
           gap: "60px",
-          alignItems: "center"
+          alignItems: "flex-start"
         }}
       >
         {articles.map((article, index) => (
