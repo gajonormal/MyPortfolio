@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
 
 // Sub-component for an individual article to maintain its own carousel state
-function NewsArticle({ article, isFirst }) {
+function NewsArticle({ article, isFirst }: { article: any, isFirst: boolean }) {
   const [currentImage, setCurrentImage] = useState(1);
 
   const handlePrev = () => {
@@ -15,86 +15,92 @@ function NewsArticle({ article, isFirst }) {
   };
 
   const handleNext = () => {
-    if (currentImage < article.imagesCount) {
+    if (currentImage < (article.imagesCount || 0)) {
       setCurrentImage(currentImage + 1);
     }
   };
 
   return (
     <article style={{ display: "flex", flex: "0 0 auto", gap: "50px", alignItems: "flex-start", marginLeft: isFirst ? "30vw" : "0" }}>
-      
-      {/* Image Side */}
+
+      {/* Image/Media Side */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        {/* The image container allows the image to dictate its natural height */}
-        <div style={{ backgroundColor: "#f2f2f2", display: "flex" }}>
-          <img 
-            src={article.image} 
-            alt={article.title} 
-            style={{ width: "auto", height: "auto", display: "block" }}
-          />
+        {/* The image/media container */}
+        <div style={{ backgroundColor: article.iframe ? "transparent" : "#f2f2f2", display: "flex" }}>
+          {article.iframe ? (
+            article.iframe
+          ) : article.image ? (
+            <img
+              src={article.image}
+              alt={article.title}
+              style={{ width: "auto", height: "auto", display: "block" }}
+            />
+          ) : null}
         </div>
-        
+
         {/* Interactive Carousel Controls */}
-        <div style={{ 
-          display: "flex", 
-          justifyContent: "center", 
-          alignItems: "center", 
-          marginTop: "12px", 
-          fontSize: "14px", 
-          color: "#333",
-          fontFamily: "var(--font-mono)",
-          gap: "4px"
-        }}>
-          <button 
-            onClick={handlePrev} 
-            style={{ 
-              background: "none", 
-              border: "none", 
-              cursor: currentImage > 1 ? "pointer" : "default", 
-              fontSize: "18px", 
-              color: "#999", 
-              padding: "0 2px", 
-              fontFamily: "inherit",
-              WebkitTextStroke: "1px currentColor",
-              visibility: currentImage > 1 ? "visible" : "hidden",
-              transform: "translateY(-1.5px)"
-            }}
-          >
-            &larr;
-          </button>
-          
-          <span style={{ margin: "0 2px", fontSize: "11.5px", letterSpacing: "0.5px" }}>{currentImage} of {article.imagesCount}</span>
-          
-          <button 
-            onClick={handleNext} 
-            style={{ 
-              background: "none", 
-              border: "none", 
-              cursor: currentImage < article.imagesCount ? "pointer" : "default", 
-              fontSize: "18px", 
-              color: "#999", 
-              padding: "0 2px", 
-              fontFamily: "inherit",
-              WebkitTextStroke: "1px currentColor",
-              visibility: currentImage < article.imagesCount ? "visible" : "hidden",
-              transform: "translateY(-1.5px)"
-            }}
-          >
-            &rarr;
-          </button>
-        </div>
+        {article.imagesCount > 0 && (
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "12px",
+            fontSize: "14px",
+            color: "#333",
+            fontFamily: "var(--font-mono)",
+            gap: "4px"
+          }}>
+            <button
+              onClick={handlePrev}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: currentImage > 1 ? "pointer" : "default",
+                fontSize: "18px",
+                color: "#999",
+                padding: "0 2px",
+                fontFamily: "inherit",
+                WebkitTextStroke: "1px currentColor",
+                visibility: currentImage > 1 ? "visible" : "hidden",
+                transform: "translateY(-1.5px)"
+              }}
+            >
+              &larr;
+            </button>
+
+            <span style={{ margin: "0 2px", fontSize: "11.5px", letterSpacing: "0.5px" }}>{currentImage} of {article.imagesCount}</span>
+
+            <button
+              onClick={handleNext}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: currentImage < article.imagesCount ? "pointer" : "default",
+                fontSize: "18px",
+                color: "#999",
+                padding: "0 2px",
+                fontFamily: "inherit",
+                WebkitTextStroke: "1px currentColor",
+                visibility: currentImage < article.imagesCount ? "visible" : "hidden",
+                transform: "translateY(-1.5px)"
+              }}
+            >
+              &rarr;
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Text Side */}
       <div style={{ display: "flex", flexDirection: "column", width: "300px", fontSize: "12px", paddingTop: "5px", lineHeight: "1.4" }}>
         <h2 style={{ fontSize: "12px", marginBottom: "3px", color: "#888" }}>{article.date}</h2>
         <h1 style={{ fontSize: "14px", marginBottom: "15px" }}>{article.title}</h1>
-        
+
         <div style={{ flexGrow: 1 }}>
           {article.content}
         </div>
       </div>
-      
+
     </article>
   );
 }
@@ -125,10 +131,10 @@ export default function Random() {
     };
 
     const handleWheel = (e: WheelEvent) => {
-      e.preventDefault(); 
-      
+      e.preventDefault();
+
       target += e.deltaY;
-      
+
       // Impedir que o target vá além dos limites
       const maxScroll = container.scrollWidth - container.clientWidth;
       target = Math.max(0, Math.min(target, maxScroll));
@@ -136,7 +142,7 @@ export default function Random() {
       if (!isAnimating) {
         isAnimating = true;
         // Sincronizar com o scroll real antes de animar (caso o utilizador tenha mexido na barra)
-        current = container.scrollLeft; 
+        current = container.scrollLeft;
         requestAnimationFrame(updateScroll);
       }
     };
@@ -158,6 +164,36 @@ export default function Random() {
   }, []);
 
   const articles = [
+    {
+      id: 0,
+      date: "20/09/2026",
+      title: "Interactive iPod",
+      iframe: (
+        <div style={{ width: "300px", height: "500px", maxWidth: "100%" }}>
+
+          <iframe
+            src="https://ipod-classic-revamped.vercel.app/embed"
+            width="100%"
+            height="100%"
+            style={{ border: "none", background: "transparent", overflow: "hidden", colorScheme: "light" }}
+            title="Interactive iPod"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          ></iframe>
+
+        </div>
+      ),
+      imagesCount: 0,
+      content: (
+        <>
+          <p style={{ marginBottom: "15px" }}>
+            Widget de iPod interativo, desenvolvido usando React e animações Framer Motion.
+          </p>
+          <p>
+            Permite explorar a interface icónica, selecionar músicas e interagir com o dispositivo de forma autêntica.
+          </p>
+        </>
+      )
+    },
     {
       id: 1,
       date: "09/11/2026",
@@ -219,18 +255,18 @@ export default function Random() {
 
   return (
     <section className="page-section active" style={{ display: "flex", flexDirection: "column", padding: "0", margin: "0" }}>
-      
+
       {/* Horizontal Scrolling Area */}
-      <div 
+      <div
         ref={scrollContainerRef}
         className="horizontal-news-container"
-        style={{ 
-          display: "flex", 
-          flexGrow: 1, 
-          overflowX: "auto", 
-          overflowY: "hidden", 
+        style={{
+          display: "flex",
+          flexGrow: 1,
+          overflowX: "auto",
+          overflowY: "hidden",
           maxHeight: "calc(100vh - 180px)",
-          padding: "60px 5vw 80px 5vw", 
+          padding: "60px 5vw 80px 5vw",
           gap: "60px",
           alignItems: "flex-start"
         }}
@@ -241,7 +277,8 @@ export default function Random() {
       </div>
 
       {/* Global CSS for the scrollbar injected inline to match slices-container from projetos */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .horizontal-news-container::-webkit-scrollbar {
             height: 10px;
         }
@@ -254,31 +291,31 @@ export default function Random() {
       `}} />
 
       {/* BOTTOM NAV */}
-      <footer style={{ 
+      <footer style={{
         position: "fixed",
         bottom: "30px",
         left: "0",
         right: "0",
-        maxWidth: "900px", 
-        margin: "0 auto", 
-        width: "100%", 
-        display: "flex", 
-        justifyContent: "space-between", 
+        maxWidth: "900px",
+        margin: "0 auto",
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-between",
         padding: "0 40px",
         flexWrap: "wrap",
         gap: "20px",
         zIndex: 10
       }}>
-         <div>
-           <Link href="/" className="nav-link" style={{ color: "#777" }}>início</Link>
-         </div>
-         
-         <div style={{ display: "flex", gap: "25px", flexWrap: "wrap" }}>
-            <Link href="/sobre" className="nav-link" style={{ color: "#777" }}>sobre</Link>
-            <Link href="/projetos" className="nav-link" style={{ color: "#777" }}>projetos</Link>
-            <span className="nav-link" style={{ fontWeight: "bold", color: "#000", cursor: "default" }}>stack tecnológica</span>
-            <Link href="/contactos" className="nav-link" style={{ color: "#777" }}>contactos</Link>
-         </div>
+        <div>
+          <Link href="/" className="nav-link" style={{ color: "#777" }}>início</Link>
+        </div>
+
+        <div style={{ display: "flex", gap: "25px", flexWrap: "wrap" }}>
+          <Link href="/sobre" className="nav-link" style={{ color: "#777" }}>sobre</Link>
+          <Link href="/projetos" className="nav-link" style={{ color: "#777" }}>projetos</Link>
+          <span className="nav-link" style={{ fontWeight: "bold", color: "#000", cursor: "default" }}>stack tecnológica</span>
+          <Link href="/contactos" className="nav-link" style={{ color: "#777" }}>contactos</Link>
+        </div>
       </footer>
 
     </section>
