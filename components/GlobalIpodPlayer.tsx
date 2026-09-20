@@ -52,11 +52,16 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
       if (!iframe) return;
       const placeholder = document.getElementById("ipod-placeholder");
       
-      if (pathname === "/random" && placeholder) {
+      if (pathname === "/random" && placeholder && iframe.dataset.loaded === "true") {
         const rect = placeholder.getBoundingClientRect();
+        
+        // Compensar o zoom: 0.9 do body
+        const zoom = 0.9;
+        
         iframe.style.position = "fixed";
-        iframe.style.left = `${rect.left}px`;
-        iframe.style.top = `${rect.top}px`;
+        iframe.style.left = "0px";
+        iframe.style.top = "0px";
+        iframe.style.transform = `translate3d(${rect.left / zoom}px, ${rect.top / zoom}px, 0)`;
         iframe.style.width = "340px";
         iframe.style.height = "560px";
         iframe.style.zIndex = "10";
@@ -68,6 +73,7 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
         iframe.style.pointerEvents = "none";
         iframe.style.left = "-9999px";
         iframe.style.top = "-9999px";
+        iframe.style.transform = "none";
       }
       
       animId = requestAnimationFrame(syncPosition);
@@ -100,13 +106,19 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
         id="global-ipod-iframe"
         src="https://ipod-classic-revamped.vercel.app/embed"
         className="border-none bg-transparent overflow-hidden"
+        onLoad={(e) => { 
+          const target = e.currentTarget;
+          // Esperar 500ms extra para o Next.js dentro do iframe fazer a hidratação e evitar "flashes" brancos
+          setTimeout(() => { target.dataset.loaded = "true"; }, 500); 
+        }}
         style={{
           position: "fixed",
           left: "-9999px",
           top: "-9999px",
+          opacity: 0,
           backgroundColor: "transparent",
           colorScheme: "light dark",
-          transition: "opacity 0.3s ease",
+          transition: "opacity 0.5s ease-in-out",
         }}
         title="iPod Classic Interativo"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
