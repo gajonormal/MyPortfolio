@@ -21,7 +21,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="page-section active">
-      <div className="content-container" style={{ maxWidth: "800px", margin: "0 auto", marginTop: "40px" }}>
+      <div className="content-container" style={{ maxWidth: "800px", margin: "0 auto", marginTop: "0px" }}>
         
         <div style={{ marginBottom: "25px", fontSize: "13px" }}>Contactar</div>
         
