@@ -169,19 +169,7 @@ export default function Random() {
       date: "20/09/2026",
       title: "Interactive iPod",
       iframe: (
-        <div className="relative flex items-center justify-center" style={{ marginTop: "-80px" }}>
-          <iframe
-            src="https://ipod-classic-revamped.vercel.app/embed"
-            className="w-[340px] h-[560px] border-none bg-transparent overflow-hidden"
-            style={{
-              backgroundColor: "transparent",
-              colorScheme: "light dark"
-            }}
-            title="iPod Classic Interativo"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            scrolling="no"
-          ></iframe>
-        </div>
+        <div id="ipod-placeholder" style={{ width: "340px", height: "560px", marginTop: "-80px", opacity: 0 }}></div>
       ),
       imagesCount: 0,
       content: (

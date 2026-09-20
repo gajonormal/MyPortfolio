@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { GlobalIpodProvider } from "@/components/GlobalIpodPlayer";
 
 export const metadata: Metadata = {
   title: "Bernardo Maia — Software Engineer",
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="pt">
       <body className="theme-light" data-current-section="home">
-        {children}
+        <GlobalIpodProvider>
+          {children}
+        </GlobalIpodProvider>
       </body>
     </html>
   );
