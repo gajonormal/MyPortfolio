@@ -146,7 +146,7 @@ body:not([data-current-section="home"]) .page-section {
 /* 1. Home Section */
 .home-layout {
     position: absolute;
-    top: 35%; /* Movido mais para baixo */
+    top: 39%; /* Movido mais para baixo */
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
