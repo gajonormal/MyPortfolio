@@ -91,7 +91,7 @@ export default function StackLookbook() {
               <div style={{ display: "flex", flexDirection: "column", fontSize: "14px" }}>
                 <h1 className="bold-title" style={{ margin: 0, fontSize: "14px" }}>{activeTech.category}</h1>
                 <p style={{ margin: 0, fontSize: "14px" }}>{activeTech.name}</p>
-                <p style={{ margin: 0, color: "#777", fontSize: "14px" }}>{activeTech.description}</p>
+                <p style={{ margin: 0, color: "#777", fontSize: "14px", minHeight: "40px" }}>{activeTech.description}</p>
               </div>
               
             </div>
