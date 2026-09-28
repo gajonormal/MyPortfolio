@@ -22,6 +22,10 @@ export default function GlobalFooter({ activePage }: GlobalFooterProps) {
       </div>
       
       <div style={{ display: "flex", gap: "25px", flexWrap: "wrap" }}>
+        {activePage === "sobre" && (
+          <a href="https://www.linkedin.com/in/bernardo-maia-bpm" target="_blank" className="nav-link" style={{ color: "#777" }}>currículo</a>
+        )}
+        
         {activePage === "sobre" ? (
           <span className="nav-link" style={getStyle("sobre")}>sobre</span>
         ) : (
