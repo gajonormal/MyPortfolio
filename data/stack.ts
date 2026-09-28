@@ -4,7 +4,7 @@ import {
   SiFirebase, SiDocker, SiGit, SiGithubactions,
   SiMysql, SiMongodb, SiMariadb, SiNeo4J
 } from "react-icons/si";
-import { FaJava } from "react-icons/fa";
+import { FaJava, FaHtml5 } from "react-icons/fa";
 import { VscAzure } from "react-icons/vsc";
 
 export interface TechItem {
@@ -25,6 +25,7 @@ export const techStack: TechItem[] = [
   { id: "dart", name: "Dart", category: "Languages", description: "Linguagem otimizada para UI, base do Flutter.", icon: SiDart, color: "#0175C2" },
   { id: "kotlin", name: "Kotlin", category: "Languages", description: "Linguagem moderna e concisa para desenvolvimento Android.", icon: SiKotlin, color: "#7F52FF" },
   { id: "php", name: "PHP", category: "Languages", description: "Linguagem de script focada em desenvolvimento web no lado do servidor.", icon: SiPhp, color: "#777BB4" },
+  { id: "html5", name: "HTML5", category: "Languages", description: "A linguagem de marcação standard para criar páginas web (Isto é um teste).", icon: FaHtml5, color: "#e34c26" },
 
   // Frameworks
   { id: "flutter", name: "Flutter", category: "Frameworks", description: "Framework da Google para criar apps nativas multi-plataforma.", icon: SiFlutter, color: "#02569B" },

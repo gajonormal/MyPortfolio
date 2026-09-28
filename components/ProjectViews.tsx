@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 
-import { projects } from "@/data/projects";
+import { projects, Project } from "@/data/projects";
 
-export default function ProjectViews({ onOpenModal }: { onOpenModal: () => void }) {
+export default function ProjectViews({ onOpenModal }: { onOpenModal: (project: Project) => void }) {
   const [activeView, setActiveView] = useState<"slices" | "grid">("slices");
   const [fadingView, setFadingView] = useState<"slices" | "grid" | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("tudo");
@@ -30,7 +30,7 @@ export default function ProjectViews({ onOpenModal }: { onOpenModal: () => void 
         <div id="projects-slices" className={`projects-view active-view ${fadingView === "slices" ? "fading-out" : ""}`}>
           <div className="slices-container">
             {projects.slice(0, 14).map((project) => (
-              <div key={project.id} className="slice-item project-trigger" onClick={onOpenModal}>
+              <div key={project.id} className="slice-item project-trigger" onClick={() => onOpenModal(project)}>
                 {project.isNew && <span className="tag-new">novo</span>}
                 <div className="placeholder-img" style={{ backgroundColor: project.color }}></div>
               </div>
@@ -59,7 +59,7 @@ export default function ProjectViews({ onOpenModal }: { onOpenModal: () => void 
             </aside>
             <div className="grid-container">
               {filteredProjects.map((project) => (
-                <div key={project.id} className="grid-item project-trigger" onClick={onOpenModal}>
+                <div key={project.id} className="grid-item project-trigger" onClick={() => onOpenModal(project)}>
                   <div className="placeholder-img" style={{ backgroundColor: project.color }}></div>
                 </div>
               ))}

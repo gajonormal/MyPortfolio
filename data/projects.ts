@@ -5,6 +5,10 @@ export interface Project {
   color: string;
   isNew: boolean;
   slug: string;
+  dateLocation?: string;
+  role?: string;
+  technologies?: string[];
+  description?: string;
 }
 
 export const projects: Project[] = [
@@ -22,4 +26,16 @@ export const projects: Project[] = [
   { id: "12", title: "UX Mu", category: "ui/ux", color: "#4a004a", isNew: false, slug: "ux-mu" },
   { id: "13", title: "Plataforma Nu", category: "backend", color: "#333333", isNew: false, slug: "plataforma-nu" },
   { id: "14", title: "Website Xi", category: "frontend", color: "#3a5c6e", isNew: false, slug: "website-xi" },
+  { 
+    id: "99", 
+    title: "Projeto Teste CMS", 
+    category: "novo", 
+    color: "#ff00ff", 
+    isNew: true, 
+    slug: "projeto-teste-cms",
+    dateLocation: "Set 2026 Porto, PT",
+    role: "Fullstack Test",
+    technologies: ["React", "Next.js", "CMS"],
+    description: "Isto é um teste automático para confirmar que adicionar conteúdo através do ficheiro data/projects.ts funciona perfeitamente. Se consegues ler isto no modal e tem as cores corretas, o teste foi um sucesso!"
+  },
 ];

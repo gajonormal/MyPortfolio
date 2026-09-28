@@ -1,9 +1,11 @@
-﻿"use client";
+"use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
+import { Project } from "@/data/projects";
 
-export default function ProjectModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
+export default function ProjectModal({ project, onClose }: { project: Project | null, onClose: () => void }) {
   const [isFadingOut, setIsFadingOut] = useState(false);
+  const isOpen = !!project;
 
   useEffect(() => {
     if (!isOpen) {
@@ -33,13 +35,18 @@ export default function ProjectModal({ isOpen, onClose }: { isOpen: boolean, onC
       <div className="modal-content">
         <div className="modal-left">
           <br />
-          <p><strong>App React Native</strong></p>
+          <p><strong>{project?.title || "App React Native"}</strong></p>
           <br /><br />
-          <p>2025-2026 Porto, PT<br />Development & Design</p>
+          <p>{project?.dateLocation || "2025-2026 Porto, PT"}<br />{project?.role || "Development & Design"}</p>
           <br /><br /><br />
-          <p>Tecnologias utilizadas:<br />- React Native<br />- Expo<br />- TypeScript<br />- Node.js</p>
+          <p>Tecnologias utilizadas:<br />
+            {project?.technologies 
+              ? project.technologies.map((t, i) => <span key={i}>- {t}<br /></span>)
+              : <>- React Native<br />- Expo<br />- TypeScript<br />- Node.js</>
+            }
+          </p>
           <br /><br /><br />
-          <p>Descrição pormenorizada das funcionalidades criadas, focando na performance e usabilidade do utilizador. As escolhas arquiteturais centraram-se num design minimalista e cru.</p>
+          <p>{project?.description || "Descrição pormenorizada das funcionalidades criadas, focando na performance e usabilidade do utilizador. As escolhas arquiteturais centraram-se num design minimalista e cru."}</p>
           <br /><br /><br /><br />
           <p>(scroll para ver mais texto)</p>
           <p>Mais detalhes sobre o projeto aparecem aqui no fundo, mostrando que a parte lateral branca tem scroll infinito independente da imagem estática à direita.</p>
@@ -47,7 +54,7 @@ export default function ProjectModal({ isOpen, onClose }: { isOpen: boolean, onC
           <p>Fim da página.</p>
         </div>
         <div className="modal-right">
-          <div className="placeholder-img" style={{ backgroundColor: "#3a5c6e", height: "100%", width: "100%" }}></div>
+          <div className="placeholder-img" style={{ backgroundColor: project?.color || "#3a5c6e", height: "100%", width: "100%" }}></div>
         </div>
       </div>
     </div>
