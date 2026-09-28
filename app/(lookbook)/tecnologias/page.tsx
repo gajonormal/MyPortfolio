@@ -88,11 +88,11 @@ export default function StackLookbook() {
             {/* COPY & LOGO */}
             <div style={{ position: "relative", width: "400px", marginTop: "30px" }}>
               
-              {/* BRAND LOGO (Positioned to the left of the text) */}
-              <div style={{ position: "absolute", right: "100%", marginRight: "50px", top: "50%", transform: "translateY(-50%)" }}>
-                <div className="box-logo">
-                  <em>Bernardomaia</em>
-                </div>
+              {/* BRAND LOGO */}
+              <div style={{ position: "absolute", left: "-250px", top: "50%", transform: "translateY(-50%)", width: "200px", display: "flex", justifyContent: "flex-end" }}>
+                <Link href="/" style={{ display: "inline-block" }}>
+                  <img src="/Logo.svg" alt="Bernardomaia" style={{ height: "45px", width: "auto", display: "block" }} />
+                </Link>
               </div>
 
               {/* COPY */}
