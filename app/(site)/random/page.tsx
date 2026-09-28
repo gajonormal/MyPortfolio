@@ -280,21 +280,7 @@ export default function Random() {
       `}} />
 
       {/* BOTTOM NAV */}
-      <footer style={{
-        position: "fixed",
-        bottom: "30px",
-        left: "0",
-        right: "0",
-        maxWidth: "900px",
-        margin: "0 auto",
-        width: "100%",
-        display: "flex",
-        justifyContent: "space-between",
-        padding: "0 40px",
-        flexWrap: "wrap",
-        gap: "20px",
-        zIndex: 10
-      }}>
+      <footer className="spaced-footer" style={{ zIndex: 10 }}>
         <div>
           <Link href="/" className="nav-link" style={{ color: "#777" }}>início</Link>
         </div>

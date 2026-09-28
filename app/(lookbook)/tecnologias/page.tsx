@@ -168,16 +168,7 @@ export default function StackLookbook() {
       </main>
 
       {/* BOTTOM NAV */}
-      <footer style={{ 
-        maxWidth: "900px", 
-        margin: "0 auto", 
-        width: "100%", 
-        display: "flex", 
-        justifyContent: "space-between", 
-        paddingTop: "20px",
-        flexWrap: "wrap",
-        gap: "20px"
-      }}>
+      <footer className="spaced-footer" style={{ zIndex: 10 }}>
          <div>
            <Link href="/" className="nav-link" style={{ color: "#777" }}>início</Link>
          </div>
