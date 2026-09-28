@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -45,9 +45,9 @@ export default function Header() {
 
   return (
     <header id="main-header" className="center-header">
-      <h1 className="box-logo">
-        <Link href="/">
-          <em>Bernardomaia</em>
+      <h1 style={{ margin: 0, padding: 0 }}>
+        <Link href="/" style={{ display: "inline-block" }}>
+          <img src="/Logo.svg" alt="Bernardomaia" style={{ height: "45px", display: "block" }} />
         </Link>
       </h1>
       <div className="clock" style={{ visibility: timeStr ? "visible" : "hidden" }}>
