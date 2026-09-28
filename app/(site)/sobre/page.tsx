@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ActivityCalendar } from "react-activity-calendar";
+import GlobalFooter from "@/components/GlobalFooter";
 
 export default async function About() {
   const explicitTheme = {
@@ -29,10 +30,10 @@ export default async function About() {
     <section id="about" className="page-section active">
       <div className="content-container">
         
-        <div style={{ display: "flex", gap: "30px", justifyContent: "center", alignItems: "flex-start", maxWidth: "850px", margin: "0 auto", marginBottom: "60px" }}>
+        <div style={{ display: "flex", gap: "30px", justifyContent: "center", alignItems: "center", maxWidth: "850px", margin: "0 auto", marginBottom: "60px" }}>
           
-          {/* Imagem Placeholder 110x110 */}
-          <div style={{ flexShrink: 0, width: "110px", height: "110px", backgroundColor: "#555555" }}></div>
+          {/* Imagem Placeholder 130x130 */}
+          <div style={{ flexShrink: 0, width: "130px", height: "130px", backgroundColor: "#555555" }}></div>
           
           <div className="text-block" style={{ width: "100%", fontSize: "13px" }}>
             <h1 className="bold-title" style={{ fontWeight: "bold", marginBottom: "12px", fontSize: "13px" }}>Sobre Mim</h1>
@@ -71,17 +72,7 @@ export default async function About() {
         </div>
 
       </div>
-      <footer className="spaced-footer">
-        <div className="left-links">
-          <Link href="/projetos" className="nav-link" style={{ marginRight: "15px" }}>projetos</Link>
-          <Link href="/random" className="nav-link" style={{ marginRight: "15px" }}>random</Link>
-          <Link href="/tecnologias" className="nav-link" style={{ marginRight: "15px" }}>tecnologias</Link>
-          <a href="#" className="nav-link">currículo</a>
-        </div>
-        <div className="right-links">
-          <Link href="/" className="nav-link">voltar</Link>
-        </div>
-      </footer>
+      <GlobalFooter activePage="sobre" />
     </section>
   );
 }

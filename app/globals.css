@@ -287,14 +287,15 @@ body:not([data-current-section="home"]) .page-section {
 /* Grid View */
 .grid-layout {
     display: flex;
-    max-width: 1000px;
+    max-width: 900px;
+    padding: 0 20px;
     margin: 0 auto;
-    gap: 50px;
+    gap: 40px;
 }
 
 .grid-sidebar {
-    width: 150px;
-    text-align: right;
+    width: 130px;
+    text-align: left;
     flex-shrink: 0;
 }
 

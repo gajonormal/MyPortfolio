@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import GlobalFooter from "@/components/GlobalFooter";
 
 import { projects, Project } from "@/data/projects";
 
@@ -68,13 +69,24 @@ export default function ProjectViews({ onOpenModal }: { onOpenModal: (project: P
         </div>
       )}
 
-      <footer className="spaced-footer">
-        <div className="left-links">
-          <span style={{ marginRight: "45px" }}>projetos</span>
+      {/* Toggles extra acima do footer */}
+      <div style={{ 
+        position: "fixed", 
+        bottom: "90px", 
+        left: 0, 
+        right: 0, 
+        width: "100%", 
+        maxWidth: "900px", 
+        margin: "0 auto", 
+        padding: "0 20px", 
+        display: "flex", 
+        zIndex: 10 
+      }}>
+        <div style={{ display: "flex", fontSize: "16px", fontWeight: "normal" }}>
           <a
             href="#"
             className={`view-toggle ${activeView === "grid" ? "active-toggle" : ""}`}
-            style={{ marginRight: "15px" }}
+            style={{ marginRight: "15px", color: activeView === "grid" ? "#000" : "#777", textDecoration: "none" }}
             onClick={(e) => { e.preventDefault(); switchView("grid"); }}
           >
             ver tudo
@@ -82,15 +94,15 @@ export default function ProjectViews({ onOpenModal }: { onOpenModal: (project: P
           <a
             href="#"
             className={`view-toggle ${activeView === "slices" ? "active-toggle" : ""}`}
+            style={{ color: activeView === "slices" ? "#000" : "#777", textDecoration: "none" }}
             onClick={(e) => { e.preventDefault(); switchView("slices"); }}
           >
             destaques
           </a>
         </div>
-        <div className="right-links">
-          <Link href="/" className="nav-link">voltar</Link>
-        </div>
-      </footer>
+      </div>
+
+      <GlobalFooter activePage="projetos" />
     </>
   );
 }

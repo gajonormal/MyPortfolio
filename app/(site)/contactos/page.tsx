@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import GlobalFooter from "@/components/GlobalFooter";
 
 export default function Contact() {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,13 +103,7 @@ export default function Contact() {
         </form>
       </div>
       
-      <footer className="spaced-footer">
-        <div className="left-links">
-        </div>
-        <div className="right-links">
-          <Link href="/" className="nav-link">voltar</Link>
-        </div>
-      </footer>
+      <GlobalFooter activePage="contactos" />
     </section>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { techStack } from "@/data/stack";
+import GlobalFooter from "@/components/GlobalFooter";
 
 export default function StackLookbook() {
   useEffect(() => {
@@ -175,18 +176,7 @@ export default function StackLookbook() {
       </main>
 
       {/* BOTTOM NAV */}
-      <footer className="spaced-footer" style={{ zIndex: 10 }}>
-         <div>
-           <Link href="/" className="nav-link" style={{ color: "#777" }}>início</Link>
-         </div>
-         
-         <div style={{ display: "flex", gap: "25px", flexWrap: "wrap" }}>
-            <Link href="/sobre" className="nav-link" style={{ color: "#777" }}>sobre</Link>
-            <Link href="/projetos" className="nav-link" style={{ color: "#777" }}>projetos</Link>
-            <span className="nav-link" style={{ fontWeight: "bold", color: "#000", cursor: "default" }}>stack tecnológica</span>
-            <Link href="/contactos" className="nav-link" style={{ color: "#777" }}>contactos</Link>
-         </div>
-      </footer>
+      <GlobalFooter activePage="tecnologias" />
     </div>
   );
 }
