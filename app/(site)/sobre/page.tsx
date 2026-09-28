@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ActivityCalendar } from "react-activity-calendar";
-import GlobalFooter from "@/components/GlobalFooter";
+import ResumeFooterWrapper from "@/components/ResumeFooterWrapper";
 
 export default async function About() {
   const explicitTheme = {
@@ -72,7 +72,7 @@ export default async function About() {
         </div>
 
       </div>
-      <GlobalFooter activePage="sobre" />
+      <ResumeFooterWrapper />
     </section>
   );
 }

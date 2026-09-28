@@ -2,9 +2,10 @@ import Link from "next/link";
 
 interface GlobalFooterProps {
   activePage: "início" | "sobre" | "projetos" | "tecnologias" | "contactos" | "random";
+  onOpenResume?: () => void;
 }
 
-export default function GlobalFooter({ activePage }: GlobalFooterProps) {
+export default function GlobalFooter({ activePage, onOpenResume }: GlobalFooterProps) {
   const getStyle = (page: string) => {
     return activePage === page 
       ? { fontWeight: "bold", color: "var(--text-color, #000)", cursor: "default" }
@@ -23,7 +24,17 @@ export default function GlobalFooter({ activePage }: GlobalFooterProps) {
       
       <div style={{ display: "flex", gap: "25px", flexWrap: "wrap" }}>
         {activePage === "sobre" && (
-          <a href="https://www.linkedin.com/in/bernardo-maia-bpm" target="_blank" className="nav-link" style={{ color: "#777" }}>currículo</a>
+          <a 
+            href="#" 
+            onClick={(e) => {
+              e.preventDefault();
+              if (onOpenResume) onOpenResume();
+            }}
+            className="nav-link" 
+            style={{ color: "#777" }}
+          >
+            currículo
+          </a>
         )}
         
         {activePage === "sobre" ? (
