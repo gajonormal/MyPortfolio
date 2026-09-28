@@ -29,12 +29,12 @@ export default async function About() {
   return (
     <section id="about" className="page-section active">
       <div className="content-container">
-        
+
         <div style={{ display: "flex", gap: "30px", justifyContent: "center", alignItems: "center", maxWidth: "850px", margin: "0 auto", marginBottom: "60px" }}>
-          
+
           {/* Imagem Placeholder 130x130 */}
           <div style={{ flexShrink: 0, width: "130px", height: "130px", backgroundColor: "#555555" }}></div>
-          
+
           <div className="text-block" style={{ width: "100%", fontSize: "13px" }}>
             <h1 className="bold-title" style={{ fontWeight: "bold", marginBottom: "12px", fontSize: "13px" }}>Sobre Mim</h1>
             <p style={{ marginBottom: "12px" }}>Olá, sou o Bernardomaia, estudante de Engenharia Informática apaixonado por desenvolvimento web e design de interfaces. O meu foco é criar experiências digitais minimalistas, eficientes e impactantes.</p>
@@ -42,13 +42,13 @@ export default async function About() {
             <p style={{ marginBottom: "12px" }}>Stack Tecnológica: React, Node.js, PostgreSQL, Docker.</p>
             <p style={{ marginBottom: "12px" }}>Objetivo: Construir software robusto que combine uma estética brutalista com usabilidade imaculada e performance.</p>
           </div>
-          
+
         </div>
 
         {/* Gráfico do GitHub e link customizado */}
         <div style={{ width: "100%", maxWidth: "850px", margin: "0 auto", position: "relative" }}>
-          <ActivityCalendar 
-            data={contributions} 
+          <ActivityCalendar
+            data={contributions}
             theme={explicitTheme}
             colorScheme="light"
             showColorLegend={false}
@@ -59,14 +59,14 @@ export default async function About() {
             blockRadius={0}
           />
           <div style={{ position: "absolute", bottom: "0", right: "0", fontSize: "12px" }}>
-            <a 
-              href="https://github.com/gajonormal" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://github.com/gajonormal"
+              target="_blank"
+              rel="noopener noreferrer"
               className="nav-link"
               style={{ textDecoration: "none" }}
             >
-              github
+              github/gajonormal
             </a>
           </div>
         </div>
