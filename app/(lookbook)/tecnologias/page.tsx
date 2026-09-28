@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { techStack } from "@/data/stack";
 
 export default function StackLookbook() {
+  useEffect(() => {
+    // Garante que o tema claro está ativo para que os ícones do player fiquem da cor correta
+    document.body.classList.remove("theme-dark");
+    document.body.classList.add("theme-light");
+    document.body.setAttribute("data-current-section", "tecnologias");
+  }, []);
+
   const [activeLook, setActiveLook] = useState(0);
   const activeTech = techStack[activeLook];
 
