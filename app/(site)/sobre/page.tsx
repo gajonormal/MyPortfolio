@@ -74,6 +74,8 @@ export default async function About() {
       <footer className="spaced-footer">
         <div className="left-links">
           <Link href="/projetos" className="nav-link" style={{ marginRight: "15px" }}>projetos</Link>
+          <Link href="/random" className="nav-link" style={{ marginRight: "15px" }}>random</Link>
+          <Link href="/tecnologias" className="nav-link" style={{ marginRight: "15px" }}>tecnologias</Link>
           <a href="#" className="nav-link">currículo</a>
         </div>
         <div className="right-links">
