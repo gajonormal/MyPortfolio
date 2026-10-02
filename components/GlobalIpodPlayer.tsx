@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { IoPlaySharp, IoPauseSharp, IoVolumeHighSharp, IoVolumeMuteSharp } from "react-icons/io5";
+import LanguageSelector from "./LanguageSelector";
 
 interface PlayerState {
   isPlaying: boolean;
@@ -125,8 +126,8 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
         scrolling="no"
       ></iframe>
 
-      {/* Controlos Minimalistas nas outras páginas */}
-      {pathname !== "/random" && playerState.track !== "" && (
+      {/* Controlos Minimalistas e Seletor de Idioma (Home) */}
+      {pathname !== "/random" && (playerState.track !== "" || pathname === "/") && (
         <div 
           style={{
             position: "fixed",
@@ -134,25 +135,33 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
             left: "20px",
             display: "flex",
             alignItems: "center",
-            gap: "15px",
+            gap: "20px",
             zIndex: 100,
           }}
         >
-          {/* Botão Play/Pause */}
-          <button 
-            className="player-btn"
-            onClick={() => playerState.isPlaying ? sendCommand("IPOD_PAUSE") : sendCommand("IPOD_PLAY")} 
-          >
-            {playerState.isPlaying ? <IoPauseSharp size={18} /> : <IoPlaySharp size={18} />}
-          </button>
+          {/* Apenas mostra os botões se houver uma faixa a tocar */}
+          {playerState.track !== "" && (
+            <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+              {/* Botão Play/Pause */}
+              <button 
+                className="player-btn"
+                onClick={() => playerState.isPlaying ? sendCommand("IPOD_PAUSE") : sendCommand("IPOD_PLAY")} 
+              >
+                {playerState.isPlaying ? <IoPauseSharp size={18} /> : <IoPlaySharp size={18} />}
+              </button>
 
-          {/* Botão Mute */}
-          <button 
-            className="player-btn"
-            onClick={() => sendCommand("IPOD_TOGGLE_MUTE")} 
-          >
-            {playerState.isMuted ? <IoVolumeMuteSharp size={20} /> : <IoVolumeHighSharp size={20} />}
-          </button>
+              {/* Botão Mute */}
+              <button 
+                className="player-btn"
+                onClick={() => sendCommand("IPOD_TOGGLE_MUTE")} 
+              >
+                {playerState.isMuted ? <IoVolumeMuteSharp size={20} /> : <IoVolumeHighSharp size={20} />}
+              </button>
+            </div>
+          )}
+
+          {/* O seletor de linguagem só aparece aqui na página inicial */}
+          {pathname === "/" && <LanguageSelector />}
         </div>
       )}
     </GlobalPlayerContext.Provider>
