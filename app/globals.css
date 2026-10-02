@@ -55,6 +55,16 @@ a:hover {
     color: #ffffff !important;
 }
 
+.resume-highlight {
+    background-color: var(--supreme-red) !important;
+    color: #ffffff !important;
+    transition: background-color 0.15s ease-in-out, filter 0.15s ease-in-out;
+}
+
+.resume-highlight:hover {
+    filter: brightness(1.2); /* Fica um pouco mais claro */
+}
+
 /* Typography Elements */
 em {
     font-family: var(--font-sans);

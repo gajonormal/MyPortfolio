@@ -31,8 +31,7 @@ export default function GlobalFooter({ activePage, onOpenResume }: GlobalFooterP
               e.preventDefault();
               if (onOpenResume) onOpenResume();
             }}
-            className="nav-link" 
-            style={{ color: "#777" }}
+            className="nav-link resume-highlight" 
           >
             currículo
           </a>
