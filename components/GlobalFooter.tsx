@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LanguageSelector from "./LanguageSelector";
 
 interface GlobalFooterProps {
   activePage: "início" | "sobre" | "projetos" | "tecnologias" | "contactos" | "random";
@@ -22,7 +23,7 @@ export default function GlobalFooter({ activePage, onOpenResume }: GlobalFooterP
         )}
       </div>
       
-      <div style={{ display: "flex", gap: "25px", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: "25px", flexWrap: "wrap", alignItems: "center" }}>
         {activePage === "sobre" && (
           <a 
             href="#" 
@@ -66,6 +67,8 @@ export default function GlobalFooter({ activePage, onOpenResume }: GlobalFooterP
         ) : (
           <Link href="/contactos" className="nav-link" style={getStyle("contactos")}>contactos</Link>
         )}
+
+        <LanguageSelector />
       </div>
     </footer>
   );
