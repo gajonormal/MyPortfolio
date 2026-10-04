@@ -47,11 +47,6 @@ export default function ProjectModal({ project, onClose }: { project: Project | 
           </p>
           <br /><br /><br />
           <p>{project?.description || "Descrição pormenorizada das funcionalidades criadas, focando na performance e usabilidade do utilizador. As escolhas arquiteturais centraram-se num design minimalista e cru."}</p>
-          <br /><br /><br /><br />
-          <p>(scroll para ver mais texto)</p>
-          <p>Mais detalhes sobre o projeto aparecem aqui no fundo, mostrando que a parte lateral branca tem scroll infinito independente da imagem estática à direita.</p>
-          <br /><br /><br />
-          <p>Fim da página.</p>
         </div>
         <div className="modal-right">
           <div className="placeholder-img" style={{ backgroundColor: project?.color || "#3a5c6e", height: "100%", width: "100%" }}></div>

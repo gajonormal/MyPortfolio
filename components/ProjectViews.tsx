@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+
 import GlobalFooter from "@/components/GlobalFooter";
 
 import { projects, Project } from "@/data/projects";

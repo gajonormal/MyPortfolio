@@ -39,7 +39,7 @@ export default function Header() {
     };
 
     updateTime();
-    const interval = setInterval(updateTime, 1000); // Update every second
+    const interval = setInterval(updateTime, 10000); // Update every 10 seconds (no need for 1s since we don't show seconds)
     return () => clearInterval(interval);
   }, []);
 
