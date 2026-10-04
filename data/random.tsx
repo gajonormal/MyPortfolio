@@ -1,4 +1,5 @@
 import React from 'react';
+import TvEmulator from '@/components/TvEmulator';
 
 export interface RandomArticle {
   id: number;
@@ -26,6 +27,27 @@ export const randomArticles: RandomArticle[] = [
         </p>
         <p>
           Permite explorar a interface icónica, selecionar músicas e interagir com o dispositivo de forma autêntica.
+        </p>
+      </>
+    )
+  },
+  {
+    id: 0.5,
+    date: "A desenvolver",
+    title: "Web PSX Player",
+    iframe: (
+      <div style={{ marginTop: "-40px" }}>
+        <TvEmulator />
+      </div>
+    ),
+    imagesCount: 0,
+    content: (
+      <>
+        <p style={{ marginBottom: "15px" }}>
+          Integração de um motor de emulação PS1 diretamente no browser utilizando WebAssembly e React.
+        </p>
+        <p>
+          Permitirá aos utilizadores correrem os seus próprios jogos localmente com alta performance, mapeamento de controlos e sem necessidade de instalações ou servidores.
         </p>
       </>
     )

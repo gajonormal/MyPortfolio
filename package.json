@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "next": "16.3.4",
+    "nostalgist": "^0.22.0",
     "react": "^19.2.8",
     "react-dom": "19.2.8",
     "react-github-calendar": "^5.0.9",

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>PSX Emulator</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; overflow: hidden; }
+        #game { width: 100%; height: 100%; }
+        /* Disable scrollbars just in case */
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+    <div id="game"></div>
+    <script>
+        // Configurações do EmulatorJS
+        window.EJS_player = '#game';
+        window.EJS_core = 'psx';
+        window.EJS_color = '#ED1C24'; // Supreme red
+        window.EJS_pathtodata = 'https://cdn.jsdelivr.net/gh/ethanaobrien/emulatorjs@main/data/';
+        
+        // Se quisermos carregar um jogo padrão, usávamos window.EJS_gameUrl = 'path/to/game.iso'
+        // Como não definimos, ele mostra automaticamente a UI de "Upload / Drag & Drop"
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/ethanaobrien/emulatorjs@main/data/loader.js"></script>
+</body>
+</html>
