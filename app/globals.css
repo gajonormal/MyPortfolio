@@ -264,6 +264,8 @@ body:not([data-current-section="home"]) .page-section {
     margin: 0 auto;
     height: 55vh; /* Altura generosa para fatias verticais */
     padding-bottom: 15px; /* Espaço para a barra de scroll */
+    scrollbar-width: thin; /* Suporte para Firefox */
+    scrollbar-color: #cccccc #f1f1f1; /* polegar (thumb) e pista (track) no Firefox */
 }
 
 .slice-item {
@@ -412,6 +414,8 @@ body:not([data-current-section="home"]) .page-section {
     background-color: #ffffff;
     overflow-y: auto; /* Scroll apenas neste bloco */
     color: #000000;
+    scrollbar-width: thin; /* Suporte para Firefox */
+    scrollbar-color: #dddddd #f9f9f9; /* polegar (thumb) e pista (track) no Firefox */
 }
 
 /* Mostrar a scrollbar com design minimalista */
