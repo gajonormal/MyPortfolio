@@ -361,7 +361,13 @@ body:not([data-current-section="home"]) .page-section {
     color: #ffffff !important;
 }
 
+.view-toggle:not(.active-toggle) {
+    color: #777;
+}
+
 .active-toggle {
+    background-color: var(--supreme-red) !important;
+    color: #ffffff !important;
     font-weight: bold;
 }
 

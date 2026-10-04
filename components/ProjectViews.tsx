@@ -85,16 +85,16 @@ export default function ProjectViews({ onOpenModal }: { onOpenModal: (project: P
         <div style={{ display: "flex", fontSize: "16px", fontWeight: "normal" }}>
           <a
             href="#"
-            className={`view-toggle ${activeView === "grid" ? "active-toggle" : ""}`}
-            style={{ marginRight: "15px", color: activeView === "grid" ? "#000" : "#777", textDecoration: "none" }}
+            className={`nav-link view-toggle ${activeView === "grid" ? "active-toggle" : ""}`}
+            style={{ marginRight: "15px", textDecoration: "none" }}
             onClick={(e) => { e.preventDefault(); switchView("grid"); }}
           >
             ver tudo
           </a>
           <a
             href="#"
-            className={`view-toggle ${activeView === "slices" ? "active-toggle" : ""}`}
-            style={{ color: activeView === "slices" ? "#000" : "#777", textDecoration: "none" }}
+            className={`nav-link view-toggle ${activeView === "slices" ? "active-toggle" : ""}`}
+            style={{ textDecoration: "none" }}
             onClick={(e) => { e.preventDefault(); switchView("slices"); }}
           >
             destaques
