@@ -458,6 +458,7 @@ body:not([data-current-section="home"]) .page-section {
     background: transparent;
     outline: none;
     resize: none;
+    -webkit-text-stroke: 0.15px currentColor;
 }
 
 .supreme-form input:focus, .supreme-form textarea:focus {
@@ -533,7 +534,12 @@ body:not([data-current-section="home"]) .page-section {
   opacity: 1 !important;
 }
 
-.nav-link:not(.box-logo), .spaced-footer a, .lookbook-footer a, .external-link, .vertical-nav a { padding: 2px 6px; margin: 0 -6px; transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out; }
+.nav-link:not(.box-logo), .spaced-footer a, .lookbook-footer a, .external-link, .vertical-nav a { 
+    padding: 2px 6px; 
+    margin: 0 -6px; 
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+    -webkit-text-stroke: 0.15px currentColor; /* Espessura reduzida para metade do anterior (super subtil) */
+}
 
 /* Global Player Buttons */
 .player-btn {

@@ -164,10 +164,7 @@ export default function StackLookbook() {
               </button>
             </div>
 
-            {/* ARCHIVE LINK */}
-            <Link href="/" className="nav-link" style={{ color: "#777" }}>
-              voltar
-            </Link>
+
 
           </div>
           
