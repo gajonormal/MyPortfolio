@@ -8,7 +8,7 @@ export default function TvEmulator() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nostalgistRef = useRef<any>(null); // Guardar a referência do emulador para o podermos desligar
-  
+
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState("");
@@ -39,7 +39,7 @@ export default function TvEmulator() {
     };
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
-    
+
     // Cleanup de segurança: se o utilizador sair da página, forçamos o emulador a fechar
     // Isto evita que o som continue a dar e limpa a memória (memory leak)
     return () => {
@@ -69,7 +69,7 @@ export default function TvEmulator() {
     }
     setIsPlaying(false);
     setLoadingMsg("");
-    
+
     // Se estiver em fullscreen quando desliga, sai do fullscreen
     if (document.fullscreenElement) {
       document.exitFullscreen();
@@ -180,75 +180,154 @@ export default function TvEmulator() {
             zIndex: 100,
             pointerEvents: showControls ? "auto" : "none" // Evita clicar nos botões quando estão invisíveis
           }}>
-             <button 
-                onClick={stopGame} 
-                style={{ background: "#ED1C24", color: "white", border: "1px solid #ff4444", padding: "6px 12px", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: "12px", borderRadius: "4px" }}
-              >
-                EJECT
-              </button>
-             <button 
-                onClick={toggleFullscreen} 
-                style={{ background: "#333", color: "white", border: "1px solid #555", padding: "6px 12px", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: "12px", borderRadius: "4px" }}
-              >
-                {isFullscreen ? "EXIT FULLSCREEN" : "FULLSCREEN"}
-              </button>
+            <button
+              onClick={stopGame}
+              style={{ background: "#ED1C24", color: "white", border: "1px solid #ff4444", padding: "6px 12px", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: "12px", borderRadius: "4px" }}
+            >
+              EJECT
+            </button>
+            <button
+              onClick={toggleFullscreen}
+              style={{ background: "#333", color: "white", border: "1px solid #555", padding: "6px 12px", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: "12px", borderRadius: "4px" }}
+            >
+              {isFullscreen ? "EXIT FULLSCREEN" : "FULLSCREEN"}
+            </button>
           </div>
         )}
 
-        {/* Nossa Interface Personalizada (Visível apenas quando não há jogo) */}
+        {/* Nossa Interface Personalizada (PS2 BIOS Menu) */}
         {(!isPlaying || loadingMsg) && (
           <div style={{
-            color: "#00ff00",
-            fontFamily: "var(--font-mono)",
-            fontSize: isFullscreen ? "24px" : "14px",
-            textAlign: "center",
-            textShadow: "0 0 5px #00ff00",
             position: "relative",
             width: "100%",
             height: "100%",
+            background: "#000", // Fundo preto puro para o PS2
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            flexDirection: "column"
+            overflow: "hidden"
           }}>
-            <div>
-              {loadingMsg ? loadingMsg : (
-                <>
-                  PSX BIOS v1.0<br /><br />
-                  NO DISC DETECTED
-                </>
-              )}
-            </div>
+            <style>
+              {`
+                .ps2-orbs-container {
+                  position: absolute;
+                  left: 30%;
+                  top: 50%;
+                  width: 200px;
+                  height: 200px;
+                  transform: translate(-50%, -50%) perspective(800px) rotateX(60deg) rotateY(15deg);
+                  transform-style: preserve-3d;
+                  animation: rotateOrbs3D 15s linear infinite;
+                  z-index: 10;
+                }
 
-            {!loadingMsg && (
+                .ps2-orb {
+                  position: absolute;
+                  width: 6px;
+                  height: 6px;
+                  background: #fff;
+                  border-radius: 50%;
+                  box-shadow: 0 0 12px 6px rgba(0, 150, 255, 0.8), 0 0 25px 12px rgba(0, 100, 255, 0.5);
+                  animation: counterRotateOrbs3D 15s linear infinite;
+                  margin-top: -3px;
+                  margin-left: -3px;
+                }
+
+                /* Distribuir as 7 orbes em círculo + 1 no centro */
+                .ps2-orb:nth-child(1) { top: 5%; left: 50%; }
+                .ps2-orb:nth-child(2) { top: 22%; left: 89%; }
+                .ps2-orb:nth-child(3) { top: 66%; left: 93%; }
+                .ps2-orb:nth-child(4) { top: 96%; left: 63%; }
+                .ps2-orb:nth-child(5) { top: 85%; left: 20%; }
+                .ps2-orb:nth-child(6) { top: 40%; left: 6%; }
+                .ps2-orb:nth-child(7) { top: 50%; left: 50%; } /* orbe central */
+
+                @keyframes rotateOrbs3D {
+                  0% { transform: translate(-50%, -50%) perspective(800px) rotateX(60deg) rotateY(15deg) rotateZ(0deg); }
+                  100% { transform: translate(-50%, -50%) perspective(800px) rotateX(60deg) rotateY(15deg) rotateZ(360deg); }
+                }
+
+                /* Contrabalançar a rotação para os orbes ficarem sempre virados para a frente */
+                @keyframes counterRotateOrbs3D {
+                  0% { transform: rotateZ(0deg) rotateY(-15deg) rotateX(-60deg); }
+                  100% { transform: rotateZ(-360deg) rotateY(-15deg) rotateX(-60deg); }
+                }
+
+                .ps2-menu-list {
+                  position: absolute;
+                  right: 15%;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 12px;
+                  z-index: 10;
+                }
+
+                .ps2-menu-item {
+                  color: #888;
+                  font-size: 28px;
+                  font-family: Arial, sans-serif;
+                  cursor: pointer;
+                  transition: color 0.2s, text-shadow 0.2s, transform 0.1s;
+                  user-select: none;
+                }
+
+                .ps2-menu-item:hover {
+                  color: #00d2ff;
+                  text-shadow: 0 0 15px rgba(0, 210, 255, 0.6);
+                  transform: scale(1.05);
+                }
+              `}
+            </style>
+
+            {loadingMsg ? (
+              <div style={{ zIndex: 10, color: "#fff", fontFamily: "Arial, sans-serif", fontWeight: "bold", fontSize: "20px", textShadow: "2px 2px 0 #000" }}>
+                {loadingMsg}
+              </div>
+            ) : (
               <>
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
-                  style={{ display: "none" }} 
+                {/* 7 Glowing Orbs in 3D */}
+                <div className="ps2-orbs-container">
+                  <div className="ps2-orb"></div>
+                  <div className="ps2-orb"></div>
+                  <div className="ps2-orb"></div>
+                  <div className="ps2-orb"></div>
+                  <div className="ps2-orb"></div>
+                  <div className="ps2-orb"></div>
+                  <div className="ps2-orb"></div>
+                </div>
+
+                {/* Menu Text */}
+                <div className="ps2-menu-list">
+                  <div
+                    className="ps2-menu-item"
+                    onClick={handleLoadGameClick}
+                  >
+                    Play Game
+                  </div>
+                  <div
+                    className="ps2-menu-item"
+                    onClick={() => alert("Browser de Memory Card em construção!")}
+                  >
+                    Browser
+                  </div>
+                  <div
+                    className="ps2-menu-item"
+                    onClick={() => alert("System Configuration em construção!")}
+                  >
+                    System Configuration
+                  </div>
+                </div>
+
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
                   accept=".iso,.bin,.cue,.img,.chd"
                   onChange={handleFileSelect}
                 />
-                <button
-                  onClick={handleLoadGameClick}
-                  style={{
-                    marginTop: "30px",
-                    padding: "8px 16px",
-                    backgroundColor: "#ED1C24",
-                    color: "white",
-                    border: "none",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: isFullscreen ? "16px" : "12px",
-                    cursor: "pointer",
-                    boxShadow: "0 2px 5px rgba(0,0,0,0.5)",
-                    transition: "transform 0.1s"
-                  }}
-                  onMouseDown={(e) => e.currentTarget.style.transform = "scale(0.95)"}
-                  onMouseUp={(e) => e.currentTarget.style.transform = "scale(1)"}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
-                >
-                  INSERT CD-ROM
-                </button>
               </>
             )}
 
@@ -259,7 +338,8 @@ export default function TvEmulator() {
               background: "linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))",
               backgroundSize: "100% 4px, 6px 100%",
               pointerEvents: "none",
-              opacity: 0.6
+              opacity: 0.6,
+              zIndex: 50
             }}></div>
           </div>
         )}
