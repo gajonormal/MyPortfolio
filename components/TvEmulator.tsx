@@ -203,8 +203,8 @@ export default function TvEmulator() {
             height: "100%",
             backgroundColor: "#000",
             backgroundImage: "url('/bootPs2.gif')",
-            backgroundPosition: "-40px center",
-            backgroundSize: "110% 110%", // Aumentar um pouco para que o corte à esquerda não se note tanto
+            backgroundPosition: "-80px center",
+            backgroundSize: "130% 130%", // Aumentado para o GIF parecer maior no ecrã
             backgroundRepeat: "no-repeat",
             display: "flex",
             justifyContent: "center",
@@ -215,9 +215,9 @@ export default function TvEmulator() {
               {`
                 .ps2-menu-list {
                   position: absolute;
-                  left: 55%;
+                  left: 68%;
                   top: 50%;
-                  transform: translateY(-50%);
+                  transform: translate(-50%, -50%);
                   display: flex;
                   flex-direction: column;
                   align-items: center;
@@ -227,7 +227,7 @@ export default function TvEmulator() {
 
                 .ps2-menu-item {
                   color: rgba(255, 255, 255, 0.4);
-                  font-size: 20px;
+                  font-size: 23px; /* Reduzido de 26px para ficarem um pouco mais subtis */
                   font-family: Arial, sans-serif;
                   cursor: pointer;
                   transition: color 0.1s, text-shadow 0.1s, transform 0.1s;
