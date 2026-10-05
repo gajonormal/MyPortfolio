@@ -201,7 +201,11 @@ export default function TvEmulator() {
             position: "relative",
             width: "100%",
             height: "100%",
-            background: "#000", // Fundo preto puro para o PS2
+            backgroundColor: "#000",
+            backgroundImage: "url('/bootPs2.gif')",
+            backgroundPosition: "-40px center",
+            backgroundSize: "110% 110%", // Aumentar um pouco para que o corte à esquerda não se note tanto
+            backgroundRepeat: "no-repeat",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -209,75 +213,32 @@ export default function TvEmulator() {
           }}>
             <style>
               {`
-                .ps2-orbs-container {
-                  position: absolute;
-                  left: 30%;
-                  top: 50%;
-                  width: 200px;
-                  height: 200px;
-                  transform: translate(-50%, -50%) perspective(800px) rotateX(60deg) rotateY(15deg);
-                  transform-style: preserve-3d;
-                  animation: rotateOrbs3D 15s linear infinite;
-                  z-index: 10;
-                }
-
-                .ps2-orb {
-                  position: absolute;
-                  width: 6px;
-                  height: 6px;
-                  background: #fff;
-                  border-radius: 50%;
-                  box-shadow: 0 0 12px 6px rgba(0, 150, 255, 0.8), 0 0 25px 12px rgba(0, 100, 255, 0.5);
-                  animation: counterRotateOrbs3D 15s linear infinite;
-                  margin-top: -3px;
-                  margin-left: -3px;
-                }
-
-                /* Distribuir as 7 orbes em círculo + 1 no centro */
-                .ps2-orb:nth-child(1) { top: 5%; left: 50%; }
-                .ps2-orb:nth-child(2) { top: 22%; left: 89%; }
-                .ps2-orb:nth-child(3) { top: 66%; left: 93%; }
-                .ps2-orb:nth-child(4) { top: 96%; left: 63%; }
-                .ps2-orb:nth-child(5) { top: 85%; left: 20%; }
-                .ps2-orb:nth-child(6) { top: 40%; left: 6%; }
-                .ps2-orb:nth-child(7) { top: 50%; left: 50%; } /* orbe central */
-
-                @keyframes rotateOrbs3D {
-                  0% { transform: translate(-50%, -50%) perspective(800px) rotateX(60deg) rotateY(15deg) rotateZ(0deg); }
-                  100% { transform: translate(-50%, -50%) perspective(800px) rotateX(60deg) rotateY(15deg) rotateZ(360deg); }
-                }
-
-                /* Contrabalançar a rotação para os orbes ficarem sempre virados para a frente */
-                @keyframes counterRotateOrbs3D {
-                  0% { transform: rotateZ(0deg) rotateY(-15deg) rotateX(-60deg); }
-                  100% { transform: rotateZ(-360deg) rotateY(-15deg) rotateX(-60deg); }
-                }
-
                 .ps2-menu-list {
                   position: absolute;
-                  right: 15%;
+                  left: 55%;
                   top: 50%;
                   transform: translateY(-50%);
                   display: flex;
                   flex-direction: column;
-                  align-items: center;
-                  gap: 12px;
+                  align-items: flex-start;
+                  gap: 0px;
                   z-index: 10;
                 }
 
                 .ps2-menu-item {
-                  color: #888;
-                  font-size: 28px;
+                  color: rgba(255, 255, 255, 0.4);
+                  font-size: 20px;
                   font-family: Arial, sans-serif;
                   cursor: pointer;
-                  transition: color 0.2s, text-shadow 0.2s, transform 0.1s;
+                  transition: color 0.1s, text-shadow 0.1s, transform 0.1s;
                   user-select: none;
+                  letter-spacing: 0.5px;
                 }
 
                 .ps2-menu-item:hover {
-                  color: #00d2ff;
-                  text-shadow: 0 0 15px rgba(0, 210, 255, 0.6);
-                  transform: scale(1.05);
+                  color: #79d1ff;
+                  text-shadow: 0 0 10px rgba(121, 209, 255, 0.8), 0 0 20px rgba(121, 209, 255, 0.4);
+                  transform: translateX(5px);
                 }
               `}
             </style>
@@ -288,25 +249,8 @@ export default function TvEmulator() {
               </div>
             ) : (
               <>
-                {/* 7 Glowing Orbs in 3D */}
-                <div className="ps2-orbs-container">
-                  <div className="ps2-orb"></div>
-                  <div className="ps2-orb"></div>
-                  <div className="ps2-orb"></div>
-                  <div className="ps2-orb"></div>
-                  <div className="ps2-orb"></div>
-                  <div className="ps2-orb"></div>
-                  <div className="ps2-orb"></div>
-                </div>
-
                 {/* Menu Text */}
                 <div className="ps2-menu-list">
-                  <div
-                    className="ps2-menu-item"
-                    onClick={handleLoadGameClick}
-                  >
-                    Play Game
-                  </div>
                   <div
                     className="ps2-menu-item"
                     onClick={() => alert("Browser de Memory Card em construção!")}
@@ -315,9 +259,9 @@ export default function TvEmulator() {
                   </div>
                   <div
                     className="ps2-menu-item"
-                    onClick={() => alert("System Configuration em construção!")}
+                    onClick={handleLoadGameClick}
                   >
-                    System Configuration
+                    Play ROM
                   </div>
                 </div>
 
