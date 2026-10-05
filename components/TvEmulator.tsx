@@ -14,6 +14,8 @@ export default function TvEmulator() {
   const [loadingMsg, setLoadingMsg] = useState("");
   const [showControls, setShowControls] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0); // 0 = Browser, 1 = Play ROM
+  const [crtEnabled, setCrtEnabled] = useState(true);
+  const [hoveredUtility, setHoveredUtility] = useState<string | null>(null);
   const mouseMoveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -113,6 +115,78 @@ export default function TvEmulator() {
         width: "550px", // Tamanho intermédio ajustado
       }}
     >
+      <style>
+        {`
+          .crt-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 50;
+            pointer-events: none;
+            background: 
+              linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
+            background-size: 100% 3px, 3px 100%;
+            /* Sombreamento nas bordas para simular o ecrã abaulado da TV */
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.85);
+            animation: crt-flicker 0.15s infinite;
+          }
+          
+          @keyframes crt-flicker {
+            0% { opacity: 0.97; }
+            50% { opacity: 1; }
+            100% { opacity: 0.97; }
+          }
+
+          .ps2-menu-list {
+            position: absolute;
+            left: 68%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0px;
+            z-index: 10;
+          }
+
+          .ps2-menu-item {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 23px; /* Reduzido de 26px para ficarem um pouco mais subtis */
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            user-select: none;
+            letter-spacing: 0.5px;
+            /* Efeito para parecer texto retro (pequeno blur e contraste) */
+            filter: blur(0.3px) contrast(1.1);
+          }
+
+          .ps2-menu-item.active {
+            color: #9CE3F4; /* Azul ciano mais claro (Ice Blue) */
+            text-shadow: 0 0 5px rgba(156, 227, 244, 0.8), 0 0 10px rgba(156, 227, 244, 0.4);
+            /* Brilho extra mais subtil */
+            filter: blur(0.4px) contrast(1.2) brightness(1.1);
+          }
+
+          /* Nova estética degradada para os botões In-Game */
+          .crt-btn {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 19px; /* Um pouco menor que os botões principais (23px) */
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            user-select: none;
+            letter-spacing: 0.5px; /* Mesmo espaçamento dos botões principais */
+            /* Apenas um pouco mais de blur (desfoque analógico), sem mudar a cor */
+            filter: blur(0.7px) contrast(1.2);
+          }
+
+          .crt-btn.active {
+            color: #9CE3F4;
+            /* Mesmo brilho ciano do menu original, mas um pouco mais borrado */
+            text-shadow: 0 0 6px rgba(156, 227, 244, 0.9), 0 0 12px rgba(156, 227, 244, 0.6);
+            filter: blur(0.7px) contrast(1.3) brightness(1.1);
+          }
+        `}
+      </style>
       {/* Imagem da TV (Agora na frente) */}
       <img
         src="/Tv.png"
@@ -158,11 +232,16 @@ export default function TvEmulator() {
           width="800"
           height="600"
           style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
             width: "100%",
             height: "100%",
-            display: isPlaying && !loadingMsg ? "block" : "none",
+            opacity: isPlaying && !loadingMsg ? 1 : 0,
+            pointerEvents: isPlaying && !loadingMsg ? "auto" : "none",
             objectFit: "contain",
-            cursor: showControls ? "default" : "none" // Esconde o rato se não estivermos sobre os controlos
+            cursor: showControls ? "default" : "none",
+            zIndex: isPlaying && !loadingMsg ? 5 : -1
           }}
         />
 
@@ -171,35 +250,49 @@ export default function TvEmulator() {
           <div style={{
             position: "absolute",
             top: 0, left: 0, right: 0,
-            padding: "15px",
+            padding: "20px",
             display: "flex",
-            justifyContent: "flex-end",
-            gap: "10px",
+            justifyContent: "center",
+            gap: "40px",
             opacity: showControls ? 1 : 0,
             transition: "opacity 0.3s ease",
-            background: "linear-gradient(to bottom, rgba(0,0,0,0.8), transparent)",
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.9), transparent)",
             zIndex: 100,
-            pointerEvents: showControls ? "auto" : "none" // Evita clicar nos botões quando estão invisíveis
+            pointerEvents: showControls ? "auto" : "none"
           }}>
-            <button
-              onClick={stopGame}
-              style={{ background: "#ED1C24", color: "white", border: "1px solid #ff4444", padding: "6px 12px", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: "12px", borderRadius: "4px" }}
+            <div
+              className={`crt-btn ${hoveredUtility === 'crt' ? 'active' : ''}`}
+              onMouseEnter={() => setHoveredUtility('crt')}
+              onMouseLeave={() => setHoveredUtility(null)}
+              onClick={() => setCrtEnabled(!crtEnabled)}
             >
-              EJECT
-            </button>
-            <button
+              CRT: {crtEnabled ? "ON" : "OFF"}
+            </div>
+            <div
+              className={`crt-btn ${hoveredUtility === 'fullscreen' ? 'active' : ''}`}
+              onMouseEnter={() => setHoveredUtility('fullscreen')}
+              onMouseLeave={() => setHoveredUtility(null)}
               onClick={toggleFullscreen}
-              style={{ background: "#333", color: "white", border: "1px solid #555", padding: "6px 12px", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: "12px", borderRadius: "4px" }}
             >
               {isFullscreen ? "EXIT FULLSCREEN" : "FULLSCREEN"}
-            </button>
+            </div>
+            <div
+              className={`crt-btn ${hoveredUtility === 'eject' ? 'active' : ''}`}
+              onMouseEnter={() => setHoveredUtility('eject')}
+              onMouseLeave={() => setHoveredUtility(null)}
+              onClick={stopGame}
+            >
+              EJECT
+            </div>
           </div>
         )}
 
         {/* Nossa Interface Personalizada (PS2 BIOS Menu) */}
         {(!isPlaying || loadingMsg) && (
           <div style={{
-            position: "relative",
+            position: "absolute",
+            top: 0,
+            left: 0,
             width: "100%",
             height: "100%",
             backgroundColor: "#000",
@@ -212,39 +305,7 @@ export default function TvEmulator() {
             alignItems: "center",
             overflow: "hidden"
           }}>
-            <style>
-              {`
-                .ps2-menu-list {
-                  position: absolute;
-                  left: 68%;
-                  top: 50%;
-                  transform: translate(-50%, -50%);
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  gap: 0px;
-                  z-index: 10;
-                }
 
-                .ps2-menu-item {
-                  color: rgba(255, 255, 255, 0.4);
-                  font-size: 23px; /* Reduzido de 26px para ficarem um pouco mais subtis */
-                  font-family: Arial, sans-serif;
-                  cursor: pointer;
-                  user-select: none;
-                  letter-spacing: 0.5px;
-                  /* Efeito para parecer texto retro (pequeno blur e contraste) */
-                  filter: blur(0.3px) contrast(1.1);
-                }
-
-                .ps2-menu-item.active {
-                  color: #9CE3F4; /* Azul ciano mais claro (Ice Blue) */
-                  text-shadow: 0 0 5px rgba(156, 227, 244, 0.8), 0 0 10px rgba(156, 227, 244, 0.4);
-                  /* Brilho extra mais subtil */
-                  filter: blur(0.4px) contrast(1.2) brightness(1.1);
-                }
-              `}
-            </style>
 
             {loadingMsg ? (
               <div style={{ zIndex: 10, color: "#fff", fontFamily: "Arial, sans-serif", fontWeight: "bold", fontSize: "20px", textShadow: "2px 2px 0 #000" }}>
@@ -280,18 +341,11 @@ export default function TvEmulator() {
               </>
             )}
 
-            {/* Efeito Scanlines */}
-            <div style={{
-              position: "absolute",
-              top: 0, left: 0, right: 0, bottom: 0,
-              background: "linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))",
-              backgroundSize: "100% 4px, 6px 100%",
-              pointerEvents: "none",
-              opacity: 0.6,
-              zIndex: 50
-            }}></div>
           </div>
         )}
+
+        {/* Filtro CRT Universal (Cobre menu e jogos) */}
+        {crtEnabled && <div className="crt-overlay"></div>}
       </div>
     </div>
   );
