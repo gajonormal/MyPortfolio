@@ -220,7 +220,7 @@ export default function TvEmulator() {
                   transform: translateY(-50%);
                   display: flex;
                   flex-direction: column;
-                  align-items: flex-start;
+                  align-items: center;
                   gap: 0px;
                   z-index: 10;
                 }
