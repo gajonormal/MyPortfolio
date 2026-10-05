@@ -13,6 +13,7 @@ export default function TvEmulator() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState("");
   const [showControls, setShowControls] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0); // 0 = Browser, 1 = Play ROM
   const mouseMoveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -230,15 +231,17 @@ export default function TvEmulator() {
                   font-size: 23px; /* Reduzido de 26px para ficarem um pouco mais subtis */
                   font-family: Arial, sans-serif;
                   cursor: pointer;
-                  transition: color 0.1s, text-shadow 0.1s, transform 0.1s;
                   user-select: none;
                   letter-spacing: 0.5px;
+                  /* Efeito para parecer texto retro (pequeno blur e contraste) */
+                  filter: blur(0.3px) contrast(1.1);
                 }
 
-                .ps2-menu-item:hover {
-                  color: #79d1ff;
-                  text-shadow: 0 0 10px rgba(121, 209, 255, 0.8), 0 0 20px rgba(121, 209, 255, 0.4);
-                  transform: translateX(5px);
+                .ps2-menu-item.active {
+                  color: #9CE3F4; /* Azul ciano mais claro (Ice Blue) */
+                  text-shadow: 0 0 5px rgba(156, 227, 244, 0.8), 0 0 10px rgba(156, 227, 244, 0.4);
+                  /* Brilho extra mais subtil */
+                  filter: blur(0.4px) contrast(1.2) brightness(1.1);
                 }
               `}
             </style>
@@ -252,14 +255,16 @@ export default function TvEmulator() {
                 {/* Menu Text */}
                 <div className="ps2-menu-list">
                   <div
-                    className="ps2-menu-item"
+                    className={`ps2-menu-item ${selectedIndex === 0 ? "active" : ""}`}
                     onClick={() => alert("Browser de Memory Card em construção!")}
+                    onMouseEnter={() => setSelectedIndex(0)}
                   >
                     Browser
                   </div>
                   <div
-                    className="ps2-menu-item"
+                    className={`ps2-menu-item ${selectedIndex === 1 ? "active" : ""}`}
                     onClick={handleLoadGameClick}
+                    onMouseEnter={() => setSelectedIndex(1)}
                   >
                     Play ROM
                   </div>
