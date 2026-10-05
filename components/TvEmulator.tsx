@@ -14,6 +14,8 @@ export default function TvEmulator() {
   const [loadingMsg, setLoadingMsg] = useState("");
   const [showControls, setShowControls] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0); // 0 = Browser, 1 = Play ROM
+  const [browserView, setBrowserView] = useState<'main' | 'loading' | 'list'>('main');
+  const [savedFiles, setSavedFiles] = useState<string[]>([]);
   const [crtEnabled, setCrtEnabled] = useState(true);
   const [hoveredUtility, setHoveredUtility] = useState<string | null>(null);
   const mouseMoveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -98,6 +100,11 @@ export default function TvEmulator() {
         rom: file,
         element: canvasRef.current || undefined,
       });
+      
+      // Dar focus ao canvas para garantir que os inputs (teclado e comando) são capturados
+      if (canvasRef.current) {
+        canvasRef.current.focus();
+      }
       setLoadingMsg("");
     } catch (err: any) {
       console.error(err);
@@ -107,6 +114,56 @@ export default function TvEmulator() {
         setLoadingMsg("");
       }, 3000);
     }
+  };
+
+  const handleOpenBrowser = async () => {
+    setBrowserView('loading');
+    try {
+      const dbs = await indexedDB.databases();
+      let foundSaves: string[] = [];
+      
+      for (const dbInfo of dbs) {
+        if (!dbInfo.name) continue;
+        
+        const db: IDBDatabase | null = await new Promise((resolve) => {
+          const req = indexedDB.open(dbInfo.name);
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => resolve(null);
+        });
+        
+        if (db) {
+          if (db.objectStoreNames.contains('FILE_DATA')) {
+            const transaction = db.transaction('FILE_DATA', 'readonly');
+            const store = transaction.objectStore('FILE_DATA');
+            const request = store.getAllKeys();
+            
+            const keys: any[] = await new Promise((resolve) => {
+              request.onsuccess = () => resolve(request.result);
+              request.onerror = () => resolve([]);
+            });
+            
+            const saveFiles = keys.filter(k => 
+              typeof k === 'string' && (k.endsWith('.srm') || k.endsWith('.sav') || k.endsWith('.mcr') || k.endsWith('.state'))
+            );
+            
+            // Clean up the paths to just show the filename
+            const formattedSaves = saveFiles.map(path => {
+              const parts = path.split('/');
+              return parts[parts.length - 1];
+            });
+            
+            foundSaves.push(...formattedSaves);
+          }
+          db.close();
+        }
+      }
+      
+      // Eliminar duplicados
+      setSavedFiles(Array.from(new Set(foundSaves)));
+    } catch(e) {
+      console.error("Erro ao ler base de dados:", e);
+    }
+    setBrowserView('list');
   };
 
   return (
@@ -232,6 +289,7 @@ export default function TvEmulator() {
           ref={canvasRef}
           width="800"
           height="600"
+          tabIndex={0}
           style={{
             position: "absolute",
             top: 0,
@@ -312,13 +370,66 @@ export default function TvEmulator() {
               <div style={{ zIndex: 10, color: "#fff", fontFamily: "Arial, sans-serif", fontWeight: "bold", fontSize: "20px", textShadow: "2px 2px 0 #000" }}>
                 {loadingMsg}
               </div>
+            ) : browserView === 'loading' ? (
+              <div style={{ zIndex: 10, color: "#9CE3F4", fontFamily: "Arial, sans-serif", fontSize: "18px", textShadow: "0 0 5px rgba(156, 227, 244, 0.8)", filter: "blur(0.5px)" }}>
+                Reading Memory Card...
+              </div>
+            ) : browserView === 'list' ? (
+              <div style={{ 
+                zIndex: 10, 
+                width: "80%", 
+                height: "70%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                border: "1px solid rgba(156, 227, 244, 0.3)",
+                padding: "20px",
+                fontFamily: "Arial, sans-serif",
+                color: "rgba(255, 255, 255, 0.7)",
+                backdropFilter: "blur(4px)"
+              }}>
+                <div style={{ color: "#9CE3F4", fontSize: "22px", marginBottom: "20px", textShadow: "0 0 5px rgba(156, 227, 244, 0.8)", filter: "blur(0.5px)" }}>
+                  MEMORY CARD (PSX)
+                </div>
+                
+                <div style={{ flexGrow: 1, width: "100%", overflowY: "auto", display: "flex", flexDirection: "column", gap: "10px", padding: "0 20px", scrollbarWidth: "none" }}>
+                  {savedFiles.length > 0 ? savedFiles.map((file, idx) => (
+                    <div key={idx} style={{ 
+                      padding: "10px", 
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "15px",
+                      backgroundColor: "rgba(255, 255, 255, 0.05)"
+                    }}>
+                      <div style={{ width: "30px", height: "30px", backgroundColor: "#9CE3F4", opacity: 0.8, display: "flex", justifyContent: "center", alignItems: "center", color: "#000", fontSize: "10px", fontWeight: "bold" }}>
+                        SAV
+                      </div>
+                      <span style={{ fontSize: "14px", letterSpacing: "1px", wordBreak: "break-all" }}>{file}</span>
+                    </div>
+                  )) : (
+                    <div style={{ textAlign: "center", marginTop: "40px", color: "rgba(255,255,255,0.4)" }}>
+                      NO DATA
+                    </div>
+                  )}
+                </div>
+
+                <div 
+                  className="ps2-menu-item active" 
+                  style={{ marginTop: "20px", fontSize: "16px" }}
+                  onClick={() => setBrowserView('main')}
+                >
+                  RETURN
+                </div>
+              </div>
             ) : (
               <>
                 {/* Menu Text */}
                 <div className="ps2-menu-list">
                   <div
                     className={`ps2-menu-item ${selectedIndex === 0 ? "active" : ""}`}
-                    onClick={() => alert("Browser de Memory Card em construção!")}
+                    onClick={handleOpenBrowser}
                     onMouseEnter={() => setSelectedIndex(0)}
                   >
                     Browser
