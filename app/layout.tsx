@@ -3,16 +3,28 @@ import "./globals.css";
 import { GlobalIpodProvider } from "@/components/GlobalIpodPlayer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://bernardomaia.dev'),
   title: "Bernardo Maia — Software Engineer",
   description: "Portfólio de Bernardo Maia. Desenvolvimento web com estética minimalista e performance brutal.",
-  keywords: ["Bernardo Maia", "Software Engineer", "Web Development", "Portfolio", "Next.js", "Brutalist Design"],
+  keywords: ["Bernardo Maia", "Software Engineer", "Web Development", "Portfolio", "Next.js", "Brutalist Design", "Frontend"],
+  authors: [{ name: "Bernardo Maia" }],
+  creator: "Bernardo Maia",
   openGraph: {
-    title: "Bernardo Maia — Software Engineer",
-    description: "Portfólio de Bernardo Maia. Desenvolvimento web com estética minimalista e performance brutal.",
-    url: "https://bernardomaia.dev",
-    siteName: "Bernardo Maia Portfolio",
-    locale: "pt_PT",
     type: "website",
+    locale: "pt_PT",
+    url: "https://bernardomaia.dev",
+    title: "Bernardo Maia — Software Engineer",
+    description: "Desenvolvimento web com estética minimalista e performance brutal.",
+    siteName: "Bernardo Maia Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bernardo Maia — Software Engineer",
+    description: "Desenvolvimento web com estética minimalista e performance brutal.",
+  },
+  icons: {
+    icon: '/Logo.svg',
+    shortcut: '/Logo.svg',
   }
 };
 

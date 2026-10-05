@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 
 export default function Header() {
   const [timeStr, setTimeStr] = useState<string>("");
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+    
     const updateTime = () => {
       const options: Intl.DateTimeFormatOptions = {
         timeZone: "Europe/Lisbon",
@@ -50,8 +53,16 @@ export default function Header() {
           <img src="/Logo.svg" alt="Bernardomaia" style={{ height: "45px", display: "block" }} />
         </Link>
       </h1>
-      <div className="clock" style={{ visibility: timeStr ? "visible" : "hidden" }}>
-        {timeStr || "00/00/0000 00:00am PT"}
+      <div 
+        className="clock" 
+        style={{ 
+          visibility: isMounted ? "visible" : "hidden",
+          opacity: isMounted ? 1 : 0,
+          transition: "opacity 0.3s ease" 
+        }}
+        suppressHydrationWarning
+      >
+        {isMounted && timeStr ? timeStr : "00/00/0000 00:00am PT"}
       </div>
     </header>
   );
