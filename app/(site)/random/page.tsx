@@ -126,8 +126,14 @@ export default function Random() {
         current = target;
         container.scrollLeft = current;
         isAnimating = false;
+        if (typeof window !== 'undefined' && (window as any).syncIpodPosition) {
+          (window as any).syncIpodPosition();
+        }
       } else {
         container.scrollLeft = current;
+        if (typeof window !== 'undefined' && (window as any).syncIpodPosition) {
+          (window as any).syncIpodPosition();
+        }
         requestAnimationFrame(updateScroll);
       }
     };
@@ -152,6 +158,9 @@ export default function Random() {
     const handleScroll = () => {
       if (!isAnimating) {
         target = container.scrollLeft;
+        if (typeof window !== 'undefined' && (window as any).syncIpodPosition) {
+          (window as any).syncIpodPosition();
+        }
       }
     };
 

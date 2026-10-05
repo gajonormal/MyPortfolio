@@ -76,12 +76,21 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
         iframe.style.top = "-9999px";
         iframe.style.transform = "none";
       }
-      
-      animId = requestAnimationFrame(syncPosition);
     };
 
-    animId = requestAnimationFrame(syncPosition);
-    return () => cancelAnimationFrame(animId);
+    // Expor a função globalmente para que o script de scroll a possa invocar de forma síncrona
+    (window as any).syncIpodPosition = syncPosition;
+
+    const loop = () => {
+      syncPosition();
+      animId = requestAnimationFrame(loop);
+    };
+
+    animId = requestAnimationFrame(loop);
+    return () => {
+      cancelAnimationFrame(animId);
+      delete (window as any).syncIpodPosition;
+    };
   }, [pathname]);
 
   const sendCommand = (type: string) => {
