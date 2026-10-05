@@ -156,15 +156,15 @@ export default function TvEmulator() {
             cursor: pointer;
             user-select: none;
             letter-spacing: 0.5px;
-            /* Efeito para parecer texto retro (pequeno blur e contraste) */
-            filter: blur(0.3px) contrast(1.1);
+            /* Mesmo nível de blur dos botões in-game para manter a coerência */
+            filter: blur(0.5px) contrast(1.1);
           }
 
           .ps2-menu-item.active {
             color: #9CE3F4; /* Azul ciano mais claro (Ice Blue) */
             text-shadow: 0 0 5px rgba(156, 227, 244, 0.8), 0 0 10px rgba(156, 227, 244, 0.4);
-            /* Brilho extra mais subtil */
-            filter: blur(0.4px) contrast(1.2) brightness(1.1);
+            /* Mesmo brilho/blur para manter a coerência */
+            filter: blur(0.6px) contrast(1.2) brightness(1.1);
           }
 
           /* Nova estética degradada para os botões In-Game */
@@ -175,15 +175,15 @@ export default function TvEmulator() {
             cursor: pointer;
             user-select: none;
             letter-spacing: 0.5px; /* Mesmo espaçamento dos botões principais */
-            /* Apenas um pouco mais de blur (desfoque analógico), sem mudar a cor */
-            filter: blur(0.7px) contrast(1.2);
+            /* Blur muito ligeiro, apenas um toque mais velho que o menu principal */
+            filter: blur(0.5px) contrast(1.2);
           }
 
           .crt-btn.active {
             color: #9CE3F4;
-            /* Mesmo brilho ciano do menu original, mas um pouco mais borrado */
+            /* Mesmo brilho ciano do menu original, com blur proporcional */
             text-shadow: 0 0 6px rgba(156, 227, 244, 0.9), 0 0 12px rgba(156, 227, 244, 0.6);
-            filter: blur(0.7px) contrast(1.3) brightness(1.1);
+            filter: blur(0.6px) contrast(1.3) brightness(1.1);
           }
         `}
       </style>
