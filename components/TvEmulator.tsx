@@ -89,8 +89,37 @@ export default function TvEmulator() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Capturar a referência do canvas IMEDIATAMENTE antes de qualquer re-render do React
+    const targetCanvas = canvasRef.current;
+    if (!targetCanvas) {
+      console.error("Canvas element not found!");
+      return;
+    }
+
     setIsPlaying(true);
     setLoadingMsg("BOOTING SYSTEM...");
+
+    // OBSERVADOR AGRESSIVO: Vigiar se o Emscripten cria um canvas descontrolado no body
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeName === 'CANVAS' && screenRef.current) {
+            console.warn("Nostalgist spawnou um canvas rebelde no body. A forçar recolocação na TV...");
+            const rogueCanvas = node as HTMLCanvasElement;
+            rogueCanvas.style.position = 'absolute';
+            rogueCanvas.style.top = '0';
+            rogueCanvas.style.left = '0';
+            rogueCanvas.style.width = '100%';
+            rogueCanvas.style.height = '100%';
+            rogueCanvas.style.objectFit = 'contain';
+            rogueCanvas.style.zIndex = '5';
+            screenRef.current.appendChild(rogueCanvas);
+          }
+        });
+      });
+    });
+    
+    observer.observe(document.body, { childList: true });
 
     try {
       // Guardar a instância para podermos fazer stop mais tarde
@@ -98,7 +127,9 @@ export default function TvEmulator() {
       nostalgistRef.current = await Nostalgist.launch({
         core: 'pcsx_rearmed',
         rom: file,
-        element: canvasRef.current || undefined,
+        element: targetCanvas,
+        size: { width: 800, height: 600 },
+        style: { width: '100%', height: '100%', position: 'absolute', top: '0', left: '0' },
       });
       
       // Dar focus ao canvas para garantir que os inputs (teclado e comando) são capturados
@@ -113,6 +144,9 @@ export default function TvEmulator() {
         setIsPlaying(false);
         setLoadingMsg("");
       }, 3000);
+    } finally {
+      // Parar de vigiar após 5 segundos, quando o jogo já arrancou
+      setTimeout(() => observer.disconnect(), 5000);
     }
   };
 
@@ -228,20 +262,31 @@ export default function TvEmulator() {
           /* Nova estética degradada para os botões In-Game */
           .crt-btn {
             color: rgba(255, 255, 255, 0.4);
-            font-size: 19px; /* Um pouco menor que os botões principais (23px) */
+            font-size: 19px;
             font-family: Arial, sans-serif;
             cursor: pointer;
             user-select: none;
-            letter-spacing: 0.5px; /* Mesmo espaçamento dos botões principais */
-            /* Blur muito ligeiro, apenas um toque mais velho que o menu principal */
+            letter-spacing: 0.5px;
             filter: blur(0.5px) contrast(1.2);
           }
 
           .crt-btn.active {
             color: #9CE3F4;
-            /* Mesmo brilho ciano do menu original, com blur proporcional */
             text-shadow: 0 0 6px rgba(156, 227, 244, 0.9), 0 0 12px rgba(156, 227, 244, 0.6);
             filter: blur(0.6px) contrast(1.3) brightness(1.1);
+          }
+
+          /* Forçar o canvas do emulador a nunca escapar as barreiras */
+          .strict-canvas {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            transform: none !important;
           }
         `}
       </style>
@@ -281,24 +326,21 @@ export default function TvEmulator() {
           justifyContent: "center",
           alignItems: "center",
           borderRadius: "0px",
-          zIndex: 1 // Fica por trás da imagem que tem zIndex 10
+          zIndex: 1, // Fica por trás da imagem que tem zIndex 10
+          transform: "translateZ(0)" // Força a ser um bloco de contenção para qualquer absolute/fixed filho
         }}
       >
         {/* Canvas onde o Nostalgist vai renderizar o jogo */}
         <canvas
+          id="canvas"
           ref={canvasRef}
+          className="strict-canvas"
           width="800"
           height="600"
           tabIndex={0}
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
             opacity: isPlaying && !loadingMsg ? 1 : 0,
             pointerEvents: isPlaying && !loadingMsg ? "auto" : "none",
-            objectFit: "contain",
             cursor: showControls ? "default" : "none",
             zIndex: isPlaying && !loadingMsg ? 5 : -1
           }}
