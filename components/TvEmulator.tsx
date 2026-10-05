@@ -481,7 +481,7 @@ export default function TvEmulator() {
                     onClick={handleLoadGameClick}
                     onMouseEnter={() => setSelectedIndex(1)}
                   >
-                    Play ROM
+                    Play
                   </div>
                 </div>
 
