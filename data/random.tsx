@@ -1,5 +1,9 @@
 import React from 'react';
-import TvEmulator from '@/components/TvEmulator';
+import dynamic from 'next/dynamic';
+
+const TvEmulator = dynamic(() => import('@/components/TvEmulator'), {
+  ssr: false,
+});
 
 export interface RandomArticle {
   id: number;

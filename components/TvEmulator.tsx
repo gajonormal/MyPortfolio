@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from 'react';
-import { Nostalgist } from 'nostalgist';
+
 
 export default function TvEmulator() {
   const screenRef = useRef<HTMLDivElement>(null);
@@ -92,6 +92,7 @@ export default function TvEmulator() {
 
     try {
       // Guardar a instância para podermos fazer stop mais tarde
+      const { Nostalgist } = await import('nostalgist');
       nostalgistRef.current = await Nostalgist.launch({
         core: 'pcsx_rearmed',
         rom: file,

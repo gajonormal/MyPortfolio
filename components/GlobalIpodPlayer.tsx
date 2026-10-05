@@ -46,35 +46,49 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
 
   // Sincronizar posição do Iframe Global com o Placeholder na página Random
   useEffect(() => {
-    const iframe = document.getElementById("global-ipod-iframe");
-    let animId: number;
-
-    const syncPosition = () => {
-      if (!iframe) return;
-      const placeholder = document.getElementById("ipod-placeholder");
-      
-      if (pathname === "/random" && placeholder && iframe.dataset.loaded === "true") {
-        const rect = placeholder.getBoundingClientRect();
-        
-        // Compensar o zoom: 0.9 do body
-        const zoom = 0.9;
-        
-        iframe.style.position = "fixed";
-        iframe.style.left = "0px";
-        iframe.style.top = "0px";
-        iframe.style.transform = `translate3d(${rect.left / zoom}px, ${rect.top / zoom}px, 0)`;
-        iframe.style.width = "340px";
-        iframe.style.height = "560px";
-        iframe.style.zIndex = "10";
-        iframe.style.opacity = "1";
-        iframe.style.pointerEvents = "auto";
-      } else {
-        // Esconder o iframe quando não estamos na página Random
+    if (pathname !== "/random") {
+      const iframe = document.getElementById("global-ipod-iframe");
+      if (iframe) {
         iframe.style.opacity = "0";
         iframe.style.pointerEvents = "none";
         iframe.style.left = "-9999px";
         iframe.style.top = "-9999px";
         iframe.style.transform = "none";
+      }
+      return;
+    }
+
+    const iframe = document.getElementById("global-ipod-iframe");
+    let animId: number;
+    let lastLeft = -99999;
+    let lastTop = -99999;
+
+    const syncPosition = () => {
+      if (!iframe) return;
+      const placeholder = document.getElementById("ipod-placeholder");
+      
+      if (placeholder && iframe.dataset.loaded === "true") {
+        const rect = placeholder.getBoundingClientRect();
+        
+        // Compensar o zoom: 0.9 do body
+        const zoom = 0.9;
+        const targetLeft = rect.left / zoom;
+        const targetTop = rect.top / zoom;
+
+        if (Math.abs(targetLeft - lastLeft) > 0.1 || Math.abs(targetTop - lastTop) > 0.1) {
+          iframe.style.position = "fixed";
+          iframe.style.left = "0px";
+          iframe.style.top = "0px";
+          iframe.style.transform = `translate3d(${targetLeft}px, ${targetTop}px, 0)`;
+          iframe.style.width = "340px";
+          iframe.style.height = "560px";
+          iframe.style.zIndex = "10";
+          iframe.style.opacity = "1";
+          iframe.style.pointerEvents = "auto";
+          
+          lastLeft = targetLeft;
+          lastTop = targetTop;
+        }
       }
     };
 
