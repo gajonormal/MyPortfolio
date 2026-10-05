@@ -29,6 +29,13 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
     track: "",
     artist: "",
   });
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Delay slightly to ensure main thread is free after hydration
+    const timer = setTimeout(() => setIsMounted(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Escutar mensagens vindas do iframe
   useEffect(() => {
@@ -58,13 +65,13 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const iframe = document.getElementById("global-ipod-iframe");
-    let animId: number;
     let lastLeft = -99999;
     let lastTop = -99999;
 
     const syncPosition = () => {
+      const iframe = document.getElementById("global-ipod-iframe");
       if (!iframe) return;
+      
       const placeholder = document.getElementById("ipod-placeholder");
       
       if (placeholder && iframe.dataset.loaded === "true") {
@@ -95,14 +102,12 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
     // Expor a função globalmente para que o script de scroll a possa invocar de forma síncrona
     (window as any).syncIpodPosition = syncPosition;
 
-    const loop = () => {
-      syncPosition();
-      animId = requestAnimationFrame(loop);
-    };
+    // Fazer a primeira sincronização e anexar ao resize
+    syncPosition();
+    window.addEventListener("resize", syncPosition);
 
-    animId = requestAnimationFrame(loop);
     return () => {
-      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", syncPosition);
       delete (window as any).syncIpodPosition;
     };
   }, [pathname]);
@@ -126,28 +131,34 @@ export function GlobalIpodProvider({ children }: { children: ReactNode }) {
       {children}
 
       {/* Iframe Fixo Global */}
-      <iframe
-        id="global-ipod-iframe"
-        src="https://ipod-classic-revamped.vercel.app/embed"
-        className="border-none bg-transparent overflow-hidden"
-        onLoad={(e) => { 
-          const target = e.currentTarget;
-          // Esperar 500ms extra para o Next.js dentro do iframe fazer a hidratação e evitar "flashes" brancos
-          setTimeout(() => { target.dataset.loaded = "true"; }, 500); 
-        }}
-        style={{
-          position: "fixed",
-          left: "-9999px",
-          top: "-9999px",
-          opacity: 0,
-          backgroundColor: "transparent",
-          colorScheme: "light dark",
-          transition: "opacity 0.5s ease-in-out",
-        }}
-        title="iPod Classic Interativo"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        scrolling="no"
-      ></iframe>
+      {isMounted && (
+        <iframe
+          id="global-ipod-iframe"
+          src="https://ipod-classic-revamped.vercel.app/embed"
+          className="border-none bg-transparent overflow-hidden"
+          onLoad={(e) => { 
+            const target = e.currentTarget;
+            setTimeout(() => { 
+              target.dataset.loaded = "true"; 
+              if (typeof window !== 'undefined' && (window as any).syncIpodPosition) {
+                (window as any).syncIpodPosition();
+              }
+            }, 500); 
+          }}
+          style={{
+            position: "fixed",
+            left: "-9999px",
+            top: "-9999px",
+            opacity: 0,
+            backgroundColor: "transparent",
+            colorScheme: "light dark",
+            transition: "opacity 0.5s ease-in-out",
+          }}
+          title="iPod Classic Interativo"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          scrolling="no"
+        ></iframe>
+      )}
 
       {/* Controlos Minimalistas e Seletor de Idioma (Home) */}
       {pathname !== "/random" && (playerState.track !== "" || pathname === "/") && (
